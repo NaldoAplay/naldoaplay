@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NaldoA Play — Filmes, Séries, Música e Vídeos</title>
+  <meta name="description" content="NaldoA Play - Sua biblioteca de Filmes, Séries, Música e Vídeos" />
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+  <style>
+    :root{
+      --bg:#05060a; --card:#0d1116; --accent:#00d7d0; --muted:#9aa4b2; --glass: rgba(255,255,255,0.04);
+      --radius:12px; --max-width:1200px; --ease: cubic-bezier(.2,.9,.3,1);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background: linear-gradient(180deg,var(--bg) 0%, #071422 100%);
+      color:#e9eef6; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      -webkit-tap-highlight-color:transparent;
+    }
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    header{position:sticky;top:0;z-index:60;background:linear-gradient(180deg, rgba(5,6,10,0.65), rgba(5,6,10,0.15));backdrop-filter: blur(6px);border-bottom:1px solid rgba(255,255,255,0.03)}
+    .nav{max-width:var(--max-width);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:42px;height:42px;border-radius:9px;background:linear-gradient(135deg,var(--accent),#4adbe2);display:flex;align-items:center;justify-content:center;font-weight:700;color:#041019}
+    .brand h1{font-size:18px;margin:0}
+    .nav-links{display:flex;gap:14px;align-items:center}
+    .nav-links a{padding:8px 12px;border-radius:8px;transition:all .18s var(--ease);font-weight:600;color:var(--muted)}
+    .nav-links a:hover{color:var(--accent);transform:translateY(-3px)}
+    .search{display:flex;align-items:center;gap:8px}
+    .btn-primary{background:var(--accent);color:#021617;padding:8px 14px;border-radius:10px;font-weight:700}
+    main{max-width:var(--max-width);margin:24px auto;padding:0 20px}
+    .hero{position:relative;border-radius:16px;overflow:hidden;background:linear-gradient(90deg, rgba(0,0,0,0.25), rgba(0,0,0,0.35));display:grid;grid-template-columns:1fr 360px;gap:18px;padding:22px}
+    .hero-left{display:flex;flex-direction:column;justify-content:center;gap:12px}
+    .kicker{color:var(--accent);font-weight:700;font-size:13px}
+    .title{font-size:32px;margin:0}
+    .summary{color:var(--muted);max-width:60%}
+    .hero-actions{display:flex;gap:12px;margin-top:8px}
+    .thumb-preview{border-radius:10px;overflow:hidden;box-shadow:0 10px 30px rgba(2,6,10,0.6)}
+    .hero-right{align-self:stretch}
+    .row{margin-top:22px}
+    .row h2{margin:0 0 8px 8px;font-size:18px}
+    .cards{display:flex;gap:12px;overflow-x:auto;padding:10px 6px;scroll-snap-type:x mandatory}
+    .card{min-width:170px;border-radius:10px;flex:0 0 auto;background:var(--card);padding:8px;scroll-snap-align:start;cursor:pointer;transition:transform .18s var(--ease), box-shadow .18s var(--ease)}
+    .card:hover{transform:translateY(-8px);box-shadow:0 18px 40px rgba(2,10,20,0.6)}
+    .card img{width:100%;height:240px;object-fit:cover;border-radius:8px}
+    .card .meta{padding-top:8px;font-size:13px;color:var(--muted)}
+    .modal{position:fixed;inset:0;background:rgba(2,6,10,0.86);display:none;align-items:center;justify-content:center;z-index:120;padding:24px}
+    .modal.open{display:flex}
+    .modal-content{width:100%;max-width:1000px;background:#071422;border-radius:14px;overflow:hidden;position:relative}
+    .modal iframe{width:100%;height:500px}
+    .modal .close{position:absolute;top:18px;right:22px;background:transparent;border:none;color:#fff;font-size:28px;cursor:pointer}
+    footer{margin-top:40px;padding:22px;border-top:1px solid rgba(255,255,255,0.03);text-align:center;color:var(--muted)}
+    @media (max-width:900px){.hero{grid-template-columns:1fr;}.hero-left .summary{max-width:100%}.card img{height:160px}}
+    @media (max-width:480px){.nav .nav-links{display:none}.hero{padding:16px}.title{font-size:22px}}
+    .cards::-webkit-scrollbar{height:10px}
+    .cards::-webkit-scrollbar-thumb{background:linear-gradient(90deg,var(--accent),#4adbe2);border-radius:999px}
+    .fadeIn{animation:fadeIn .6s var(--ease) both}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <img src="c:\Users\edina\OneDrive\Imagens\radio naldoa play.jpg" alt="NaldoA Logo" class="logo">
+        <div>
+          <h1></h1>
+          <div style="font-size:12px;color:var(--muted)">Dê o Play</div>
+        </div>
+      </div>
+      <nav class="nav-links" aria-label="Navegação principal">
+        <a href="#/home">Início</a>
+        <a href="#/movies">Filmes</a>
+        <a href="#/series">Séries</a>
+        <a href="#/music">Música</a>
+        <a href="#/videos">Vídeos</a>
+      </nav>
+      <div class="search">
+        <input id="globalSearch" placeholder="Pesquisar" style="background:var(--glass);border:1px solid rgba(255,255,255,0.02);padding:8px 10px;border-radius:10px;color:#eaf6f5;outline:none" />
+        <button class="btn-primary">Entrar</button>
+      </div>
+    </div>
+
+    <div id="radioPlayer" style="position:absolute; top:15px; right:20px; z-index:1000;">
+      <button id="playRadio" style="background: var(--accent);border:none;border-radius:50%;width:50px;height:50px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow: 0 4px 12px rgba(0,0,0,0.5);transition: transform 0.2s;">▶</button>
+    </div>
+    <audio id="radioAudio" src="https://stream.zeno.fm/xx785t45mf9uv" preload="none"></audio>
+  </header>
+
+  <main id="app" class="fadeIn"></main>
+
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true">
+      <button class="close" id="closeModal">×</button>
+      <iframe id="modalPlayer" src="" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 <strong>NaldoA Play</strong> — Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    // RADIO
+    const playBtn = document.getElementById('playRadio');
+    const radio = document.getElementById('radioAudio');
+    let isPlaying = false;
+    playBtn.addEventListener('click', () => {
+      if (!isPlaying) { radio.play(); playBtn.textContent = '⏸'; isPlaying = true; playBtn.style.transform='scale(1.1)'; }
+      else { radio.pause(); playBtn.textContent = '▶'; isPlaying=false; playBtn.style.transform='scale(1)'; }
+    });
+
+    // ============================
+    // ADICIONE SEUS VÍDEOS, FILMES, SÉRIES, MÚSICA AQUI
+    // ============================
+
+    const musicas = [
+      {src:"https://www.youtube.com/embed/0RAvJuvlfJg", thumb:"https://img.youtube.com/vi/0RAvJuvlfJg/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/tkqSvyquwcU", thumb:"https://img.youtube.com/vi/tkqSvyquwcU/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/DeWF9qlTIj4", thumb:"https://img.youtube.com/vi/DeWF9qlTIj4/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/SxFL0-22nUQ", thumb:"https://img.youtube.com/vi/SxFL0-22nUQ/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/fnHj1OdrFU4", thumb:"https://img.youtube.com/vi/fnHj1OdrFU4/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/h13NveGSPpk", thumb:"https://img.youtube.com/vi/h13NveGSPpk/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/tXpN2M0Bm7s", thumb:"https://img.youtube.com/vi/tXpN2M0Bm7s/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/YstoSfFBqPM", thumb:"https://img.youtube.com/vi/YstoSfFBqPM/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/PF9d4PP2K_Y", thumb:"https://img.youtube.com/vi/PF9d4PP2K_Y/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/vjC0mKpGlz4", thumb:"https://img.youtube.com/vi/vjC0mKpGlz4/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/u1X83AQc1h", thumb:"https://img.youtube.com/vi/u1X83AQc1h/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/rvz0Q4ulp2A", thumb:"https://img.youtube.com/vi/rvz0Q4ulp2A/hqdefault.jpg"},
+    ];
+
+    const filmes = [
+      {src:"https://www.youtube.com/embed/YzaH54wLpeU", thumb:"https://img.youtube.com/vi/YzaH54wLpeU/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/F5mKlnQI65E", thumb:"https://img.youtube.com/vi/F5mKlnQI65E/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/9msmHRCWfgc", thumb:"https://img.youtube.com/vi/9msmHRCWfgc/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/gZ-8-ombrJ4", thumb:"https://img.youtube.com/vi/gZ-8-ombrJ4/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/-SHjYkfUIW0", thumb:"https://img.youtube.com/vi/-SHjYkfUIW0/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/8r4u_l3_sdA", thumb:"https://img.youtube.com/vi/8r4u_l3_sdA/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/lcgUgIaIt44", thumb:"https://img.youtube.com/vi/lcgUgIaIt44/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/MlQoTIqcReQ", thumb:"https://img.youtube.com/vi/MlQoTIqcReQ/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/xPy-i1wKw6A", thumb:"https://img.youtube.com/vi/xPy-i1wKw6A/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/E-AOylYexI0", thumb:"https://img.youtube.com/vi/E-AOylYexI0/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/uhvZHHRAqEw", thumb:"https://img.youtube.com/vi/uhvZHHRAqEw/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/mLtDkwqG-3s", thumb:"https://img.youtube.com/vi/mLtDkwqG-3s/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/WkVOJo2M37M", thumb:"https://img.youtube.com/vi/WkVOJo2M37M/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/Pz2k2M6AuBQ", thumb:"https://img.youtube.com/vi/Pz2k2M6AuBQ/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/GDzXCudthKM", thumb:"https://img.youtube.com/vi/GDzXCudthKM/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/_bYY_wYIECA", thumb:"https://img.youtube.com/vi/_bYY_wYIECA/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/lUDhz9-Cl14", thumb:"https://img.youtube.com/vi/lUDhz9-Cl14/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/RLKCbz_WmKo", thumb:"https://img.youtube.com/vi/RLKCbz_WmKo/hqdefault.jpg"}
+    ];
+
+    const seriesData = [
+      {src:"https://www.youtube.com/embed/ZiGIki2Q8_Q", thumb:"https://img.youtube.com/vi/ZiGIki2Q8_Q/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/xc00XBGZe3Q", thumb:"https://img.youtube.com/vi/xc00XBGZe3Q/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/n5TZ7JdlEX4", thumb:"https://img.youtube.com/vi/n5TZ7JdlEX4/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/HTPDfQENm2Q", thumb:"https://img.youtube.com/vi/HTPDfQENm2Q/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/1lFYmKP3DpA", thumb:"https://img.youtube.com/vi/1lFYmKP3DpA/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/ID6", thumb:"https://img.youtube.com/vi/ID6/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/ID7", thumb:"https://img.youtube.com/vi/ID7/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/ID8", thumb:"https://img.youtube.com/vi/ID8/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/ID9", thumb:"https://img.youtube.com/vi/ID9/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/ID10", thumb:"https://img.youtube.com/vi/ID10/hqdefault.jpg"}
+    ];
+
+    const videosList = [
+      {src:"https://www.youtube.com/embed/-wFl2OcdDnk", thumb:"https://img.youtube.com/vi/-wFl2OcdDnk/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/GdE1z8Mf0zA", thumb:"https://img.youtube.com/vi/GdE1z8Mf0zA/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/s-p1w9kAkFY", thumb:"https://img.youtube.com/vi/s-p1w9kAkFY/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/8FylSyd2Q6o", thumb:"https://img.youtube.com/vi/8FylSyd2Q6o/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/ID4", thumb:"https://img.youtube.com/vi/ID4/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/ID5", thumb:"https://img.youtube.com/vi/ID5/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/ID6", thumb:"https://img.youtube.com/vi/ID6/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/ID7", thumb:"https://img.youtube.com/vi/ID7/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/ID8", thumb:"https://img.youtube.com/vi/ID8/hqdefault.jpg"},
+      {src:"https://www.youtube.com/embed/ID9", thumb:"https://img.youtube.com/vi/ID9/hqdefault.jpg"}
+    ];
+
+    // DESTAQUE AUTOMÁTICO
+    const featuredSource = (musicas[0] || filmes[0] || seriesData[0] || videosList[0]) || {src:'', thumb:''};
+
+    const DB = {
+      featured: {
+        title: 'Vídeo em Destaque',
+        summary: 'Assista agora o destaque do momento!',
+        poster: featuredSource.thumb,
+        src: featuredSource.src
+      },
+      movies: filmes.map((v,i)=>({id:i,title:`Filme ${i+1}`,poster:v.thumb,src:v.src})),
+      series: seriesData.map((v,i)=>({id:i,title:`Série ${i+1}`,poster:v.thumb,src:v.src})),
+      music: musicas.map((v,i)=>({id:i,title:`Música ${i+1}`,poster:v.thumb,src:v.src})),
+      videos: videosList.map((v,i)=>({id:i,title:`Vídeo ${i+1}`,poster:v.thumb,src:v.src}))
+    };
+
+    // ROTAS
+    const routes = {
+      '/home': renderHome,
+      '/movies': ()=>renderGrid('Filmes', DB.movies),
+      '/series': ()=>renderGrid('Séries', DB.series),
+      '/music': ()=>renderGrid('Música', DB.music),
+      '/videos': ()=>renderGrid('Vídeos', DB.videos),
+      '/': renderHome
+    };
+
+    const app = document.getElementById('app');
+    const modal = document.getElementById('modal');
+    const modalPlayer = document.getElementById('modalPlayer');
+    const closeModal = document.getElementById('closeModal');
+
+    function router(){
+      const route = location.hash.replace('#','') || '/home';
+      (routes[route] || renderNotFound)();
+    }
+
+    function renderHome(){
+      app.innerHTML = `<section class="hero">
+        <div class="hero-left">
+          <div class="kicker">Destaque</div>
+          <h2 class="title">${DB.featured.title}</h2>
+          <p class="summary">${DB.featured.summary}</p>
+          <div class="hero-actions"><button class="btn-primary" data-play-feature>Assistir</button></div>
+        </div>
+        <div class="hero-right">
+          <div class="thumb-preview"><img src="${DB.featured.poster}" alt="Destaque"></div>
+        </div>
+      </section>
+      ${renderRow('Filmes', DB.movies)}
+      ${renderRow('Séries', DB.series)}
+      ${renderRow('Música', DB.music)}
+      ${renderRow('Vídeos', DB.videos)}`;
+
+      const btn = document.querySelector('[data-play-feature]');
+      if (btn) btn.addEventListener('click', ()=>openModal(DB.featured.src));
+      attachRowEvents();
+    }
+
+    function renderRow(title, items){
+      return `<div class="row"><h2>${title}</h2><div class="cards">${items.map(it=>`<article class="card" data-src="${it.src}" tabindex="0"><img src="${it.poster}" alt="${it.title}"><div class="meta">${it.title}</div></article>`).join('')}</div></div>`;
+    }
+
+    function renderGrid(title, items){
+      app.innerHTML = `<h2 style="margin-left:8px">${title}</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;padding:12px">
+          ${items.map(it=>`<div class="card" data-src="${it.src}" tabindex="0"><img src="${it.poster}" alt="${it.title}"><div class="meta">${it.title}</div></div>`).join('')}
+        </div>`;
+      attachRowEvents();
+    }
+
+    function renderNotFound(){ app.innerHTML=`<div style="padding:40px;text-align:center"><h2>Página não encontrada</h2></div>`; }
+
+    function attachRowEvents(){
+      document.querySelectorAll('.card').forEach(card=>{
+        card.addEventListener('click', ()=>openModal(card.getAttribute('data-src')));
+        card.addEventListener('keydown', (e)=>{ if(e.key==='Enter') openModal(card.getAttribute('data-src')); });
+      });
+    }
+
+    function openModal(src){
+      if(!src) return;
+      modalPlayer.src = src;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden','false');
+    }
+
+    function closeModalFunc(){
+      modalPlayer.src='';
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+    }
+
+    closeModal.addEventListener('click', closeModalFunc);
+    modal.addEventListener('click', e=>{ if(e.target===modal) closeModalFunc(); });
+
+    document.getElementById('globalSearch').addEventListener('keyup', (e)=>{
+      const q = e.target.value.trim().toLowerCase();
+      if(!q){ router(); return; }
+      const all = [...DB.movies, ...DB.series, ...DB.music, ...DB.videos];
+      const results = all.filter(x=>x.title.toLowerCase().includes(q));
+      app.innerHTML = `<h2 style="margin-left:8px">Resultados para "${q}"</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;padding:12px">
+          ${results.map(it=>`<div class="card" data-src="${it.src}" tabindex="0"><img src="${it.poster}" alt="${it.title}"><div class="meta">${it.title}</div></div>`).join('')}
+        </div>`;
+      attachRowEvents();
+    });
+
+    window.addEventListener('hashchange', router);
+    router();
+  </script>
+</body>
+</html>
