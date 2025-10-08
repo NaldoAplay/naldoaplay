@@ -1,0 +1,1 @@
+NaldoA final site. Open in VS Code. Replace placeholders in js/script.js and images/*.
