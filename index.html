@@ -1,597 +1,525 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-    <title>NaldoA Play · Rádio Ao Vivo</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@300;400;600;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<title>NaldoA Play | Ecossistema Oficial</title>
 
-        :root {
-            --primary: #d4af37;
-            --primary-rgb: 212, 175, 55;
-            --primary-glow: rgba(212, 175, 55, 0.4);
-            --bg-glass: rgba(0, 0, 0, 0.82);
-            --text-color: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --card-bg: rgba(15, 15, 25, 0.7);
-            --border-light: rgba(255, 255, 255, 0.1);
-        }
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@300;400;600;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
 
-        body {
-            background: #000;
-            color: var(--text-color);
-            font-family: 'Montserrat', sans-serif;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-            display: flex;
-        }
+<style>
+:root {
+    --primary: #d4af37;
+    --bg-glass: rgba(0, 0, 0, 0.85);
+    --text-color: #ffffff;
+    --accent-glow: rgba(212, 175, 55, 0.45);
+}
 
-        #master-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            background-size: cover;
-            background-position: center;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
 
-        #master-bg::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            transition: background 0.3s;
-        }
+body {
+    background: #000;
+    color: var(--text-color);
+    font-family: 'Montserrat', sans-serif;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+}
 
-        aside {
-            width: 280px;
-            background: var(--bg-glass);
-            backdrop-filter: blur(20px);
-            border-right: 1px solid var(--border-light);
-            display: flex;
-            flex-direction: column;
-            padding: 35px 20px;
-            z-index: 1000;
-            transition: all 0.3s;
-        }
+#master-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('https://images.unsplash.com/photo-1464802686167-b939a67e06a1');
+    transition: 0.8s ease;
+    filter: brightness(0.35);
+}
 
-        .logo-area {
-            text-align: center;
-            margin-bottom: 45px;
-        }
+aside {
+    width: 280px;
+    background: var(--bg-glass);
+    backdrop-filter: blur(24px);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 35px 20px;
+    display: flex;
+    flex-direction: column;
+    z-index: 99;
+}
 
-        .logo-area h2 {
-            font-family: 'Orbitron', monospace;
-            font-weight: 900;
-            font-size: 2rem;
-            letter-spacing: 8px;
-            background: linear-gradient(135deg, var(--primary) 0%, #ffdd77 50%, var(--primary) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 20px var(--primary-glow);
-        }
+.logoSide {
+    text-align: center;
+    margin-bottom: 35px;
+}
 
-        .logo-area p {
-            font-size: 0.55rem;
-            letter-spacing: 4px;
-            opacity: 0.7;
-            margin-top: 8px;
-            color: var(--text-secondary);
-        }
+.logoSide h1 {
+    font-family: 'Orbitron';
+    color: var(--primary);
+    letter-spacing: 6px;
+    font-size: 2rem;
+}
 
-        .nav-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            flex: 1;
-        }
+.logoSide p {
+    opacity: 0.7;
+    letter-spacing: 4px;
+    font-size: 0.6rem;
+}
 
-        .nav-item {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            padding: 14px 18px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            font-family: 'Orbitron', monospace;
-            font-size: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-        }
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
 
-        .nav-item i {
-            width: 22px;
-            height: 22px;
-            transition: all 0.3s;
-        }
+.nav-item {
+    border: none;
+    background: none;
+    color: inherit;
+    padding: 15px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: 0.25s;
+    font-family: 'Orbitron';
+    font-size: 0.7rem;
+    width: 100%;
+}
 
-        .nav-item.active {
-            background: linear-gradient(135deg, var(--primary) 0%, #ffdd77 100%);
-            color: #0a0a0a;
-            box-shadow: 0 4px 15px var(--primary-glow);
-        }
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
 
-        .nav-item.active i {
-            color: #0a0a0a;
-        }
+.nav-item.active {
+    background: var(--primary);
+    color: #000;
+    font-weight: 900;
+    box-shadow: 0 0 25px var(--accent-glow);
+}
 
-        .nav-item:not(.active):hover {
-            background: rgba(255, 255, 255, 0.08);
-            color: var(--primary);
-            transform: translateX(5px);
-        }
+main {
+    flex: 1;
+    overflow-y: auto;
+    height: 100vh;
+    padding: 35px;
+}
 
-        .nav-item:not(.active):hover i {
-            color: var(--primary);
-        }
+main::-webkit-scrollbar {
+    width: 5px;
+}
+main::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+main::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+}
 
-        main {
-            flex: 1;
-            height: 100vh;
-            overflow-y: auto;
-            padding: 30px 40px;
-            position: relative;
-        }
+.view {
+    display: none;
+    animation: fade 0.4s ease;
+}
 
-        main::-webkit-scrollbar {
-            width: 6px;
-        }
-        main::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-        }
-        main::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
+.view.active {
+    display: flex;
+    flex-direction: column;
+}
 
-        .view {
-            display: none;
-            animation: fadeInUp 0.5s ease;
-        }
+@keyframes fade {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+}
 
-        .view.active {
-            display: block;
-        }
+/* HOME */
+.home-grid {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 35px;
+    align-items: start;
+    max-width: 1300px;
+    margin: auto;
+}
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+.hero-img {
+    width: 100%;
+    border-radius: 28px;
+    border: 4px solid var(--primary);
+    box-shadow: 0 0 40px var(--accent-glow);
+}
 
-        /* HOME */
-        .home-grid {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 45px;
-            max-width: 1300px;
-            margin: 0 auto;
-        }
+.hero-info h1 {
+    font-family: 'Orbitron';
+    font-size: 4rem;
+    line-height: 1;
+    color: var(--primary);
+    margin-bottom: 15px;
+}
 
-        .hero-img {
-            width: 100%;
-            border-radius: 35px;
-            border: 3px solid var(--primary);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(212,175,55,0.3);
-            transition: transform 0.3s;
-        }
+.hero-info p {
+    line-height: 1.7;
+}
 
-        .hero-img:hover {
-            transform: scale(1.02);
-        }
+.extra-desc {
+    margin-top: 20px;
+    border-left: 3px solid var(--primary);
+    padding-left: 15px;
+    opacity: 0.85;
+}
 
-        .hero-info h1 {
-            font-family: 'Orbitron', monospace;
-            font-size: 3.8rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), #ffdd77);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 15px;
-        }
+.links-wall {
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 12px;
+}
 
-        .badge-dj {
-            display: inline-block;
-            background: rgba(var(--primary-rgb), 0.15);
-            backdrop-filter: blur(8px);
-            padding: 6px 18px;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(var(--primary-rgb), 0.3);
-            color: var(--primary);
-        }
+.link-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: 0.25s;
+}
 
-        .extra-desc {
-            margin: 25px 0 30px;
-            line-height: 1.7;
-            font-size: 0.95rem;
-            border-left: 3px solid var(--primary);
-            padding-left: 22px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 0 12px 12px 0;
-            color: var(--text-secondary);
-        }
+.link-card:hover {
+    background: var(--primary);
+    color: #000;
+    transform: translateY(-5px);
+}
 
-        .links-wall {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
-            gap: 14px;
-            margin-top: 20px;
-        }
+.link-card span {
+    font-family: 'Orbitron';
+    font-size: 0.58rem;
+    font-weight: 700;
+}
 
-        .link-card {
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-light);
-            padding: 14px 10px;
-            border-radius: 18px;
-            text-align: center;
-            text-decoration: none;
-            color: var(--text-secondary);
-            transition: all 0.3s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
+/* RÁDIO */
+.radio-center {
+    max-width: 700px;
+    margin: auto;
+    text-align: center;
+}
 
-        .link-card i {
-            transition: all 0.3s;
-        }
+.radio-container {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin: 0 auto 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .link-card:hover {
-            background: var(--primary);
-            color: #000;
-            transform: translateY(-6px);
-            border-color: var(--primary);
-        }
+.spectrum-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 4px solid var(--primary);
+    box-shadow: 0 0 40px var(--accent-glow);
+    animation: pulse 2s infinite;
+    animation-play-state: paused;
+}
 
-        .link-card:hover i {
-            color: #000;
-        }
+@keyframes pulse {
+    0% { transform: scale(0.92); opacity: 0.9; }
+    50% { transform: scale(1.1); opacity: 0.3; border-width: 10px; }
+    100% { transform: scale(0.92); opacity: 0.9; }
+}
 
-        /* RÁDIO */
-        .radio-sphere {
-            text-align: center;
-            max-width: 550px;
-            margin: 0 auto;
-        }
+.radio-logo-main {
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    z-index: 2;
+}
 
-        .radio-container {
-            position: relative;
-            width: 270px;
-            height: 270px;
-            margin: 0 auto 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.play-btn {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: none;
+    background: var(--primary);
+    color: #000;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 25px auto;
+    box-shadow: 0 0 40px var(--accent-glow);
+    transition: 0.25s;
+}
 
-        .spectrum-ring {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 3px solid var(--primary);
-            animation: pulseRing 2s infinite;
-            box-shadow: 0 0 30px var(--primary-glow);
-            animation-play-state: paused;
-        }
+.play-btn:hover {
+    transform: scale(1.08);
+}
 
-        @keyframes pulseRing {
-            0% { transform: scale(0.92); opacity: 0.8; border-width: 3px; }
-            50% { transform: scale(1.08); opacity: 0.3; border-width: 8px; }
-            100% { transform: scale(0.92); opacity: 0.8; }
-        }
+.radio-status {
+    opacity: 0.65;
+    letter-spacing: 5px;
+    font-family: 'Orbitron';
+    font-size: 0.7rem;
+}
 
-        .radio-logo-main {
-            width: 190px;
-            height: 190px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #fff;
-            box-shadow: 0 0 35px rgba(0,0,0,0.5);
-        }
+.radio-song {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
 
-        .play-btn {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), #ffdd77);
-            border: none;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 35px var(--primary-glow);
-            transition: all 0.3s;
-            margin: 25px 0;
-        }
+/* VÍDEOS */
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+}
 
-        .play-btn:hover {
-            transform: scale(1.08);
-            box-shadow: 0 0 45px var(--primary-glow);
-        }
+.video-box {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    border-radius: 24px;
+    border: 3px solid rgba(255, 255, 255, 0.08);
+    transition: 0.3s;
+    background: #000;
+}
 
-        .status-text {
-            margin-top: 15px;
-            padding: 12px 24px;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(8px);
-            border-radius: 50px;
-            display: inline-block;
-            font-size: 0.85rem;
-            font-weight: 500;
-            border: 1px solid rgba(var(--primary-rgb), 0.3);
-        }
+.video-box:hover {
+    border-color: var(--primary);
+    transform: scale(1.02);
+    box-shadow: 0 0 35px var(--accent-glow);
+}
 
-        .volume-control {
-            margin-top: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
+.video-box iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
 
-        .volume-control i {
-            opacity: 0.7;
-        }
+/* TEMAS */
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
 
-        .volume-control input {
-            width: 220px;
-            height: 5px;
-            -webkit-appearance: none;
-            background: rgba(255,255,255,0.2);
-            border-radius: 10px;
-            outline: none;
-        }
+.theme-opt {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 12px;
+    border-radius: 18px;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.25s;
+    border: 1px solid transparent;
+}
 
-        .volume-control input::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: var(--primary);
-            cursor: pointer;
-            box-shadow: 0 0 10px var(--primary-glow);
-        }
+.theme-opt:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+}
 
-        /* VÍDEOS */
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 28px;
-            margin-top: 25px;
-        }
+.theme-opt .box {
+    height: 70px;
+    border-radius: 12px;
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 10px;
+}
 
-        .video-box {
-            background: #000;
-            border-radius: 24px;
-            overflow: hidden;
-            border: 2px solid rgba(var(--primary-rgb), 0.3);
-            aspect-ratio: 16/9;
-            transition: all 0.35s;
-            cursor: pointer;
-        }
+.palette {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 20px 0;
+}
 
-        .video-box:hover {
-            border-color: var(--primary);
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 35px rgba(0,0,0,0.4);
-        }
+.color-dot {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    cursor: pointer;
+    transition: 0.2s;
+}
 
-        .video-box iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+.color-dot:hover {
+    transform: scale(1.1);
+}
 
-        /* TEMAS */
-        .section-title {
-            font-family: 'Orbitron', monospace;
-            color: var(--primary);
-            margin: 25px 0 15px;
-            font-size: 1rem;
-            letter-spacing: 2px;
-        }
+/* Upload personalizado */
+.upload-area {
+    margin: 30px 0 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    border: 2px dashed var(--primary);
+    text-align: center;
+}
 
-        .section-title:first-of-type {
-            margin-top: 0;
-        }
+.upload-area input {
+    display: none;
+}
 
-        .catalog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 18px;
-            margin-bottom: 25px;
-        }
+.upload-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--primary);
+    color: #000;
+    padding: 12px 24px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: 'Orbitron';
+    font-size: 0.7rem;
+    font-weight: bold;
+    transition: 0.3s;
+}
 
-        .theme-opt {
-            cursor: pointer;
-            text-align: center;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(8px);
-            padding: 14px 10px;
-            border-radius: 20px;
-            transition: all 0.3s;
-            border: 1px solid var(--border-light);
-        }
+.upload-label:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--accent-glow);
+}
 
-        .theme-opt:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            background: rgba(0,0,0,0.7);
-        }
+.footer-nav {
+    margin: 60px 0 20px;
+    text-align: center;
+    opacity: 0.5;
+    font-family: 'Orbitron';
+    letter-spacing: 4px;
+    font-size: 0.7rem;
+}
 
-        .theme-opt .box {
-            width: 100%;
-            height: 75px;
-            border-radius: 14px;
-            margin-bottom: 10px;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .palette {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin: 20px 0 30px;
-        }
-
-        .color-dot {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 3px solid #fff;
-            transition: all 0.25s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        }
-
-        .color-dot:hover {
-            transform: scale(1.15);
-            box-shadow: 0 0 0 2px var(--primary);
-        }
-
-        .footer-nav {
-            margin-top: 60px;
-            text-align: center;
-            opacity: 0.5;
-            font-size: 0.65rem;
-            font-family: 'Orbitron';
-            letter-spacing: 3px;
-            color: var(--text-secondary);
-        }
-
-        @media (max-width: 880px) {
-            body { flex-direction: column; }
-            aside {
-                width: 100%;
-                flex-direction: row;
-                position: fixed;
-                bottom: 0;
-                top: auto;
-                padding: 10px 15px;
-                border-right: none;
-                border-top: 1px solid var(--primary);
-                backdrop-filter: blur(25px);
-            }
-            .logo-area { display: none; }
-            .nav-menu { flex-direction: row; justify-content: space-around; gap: 5px; }
-            .nav-item { flex-direction: column; padding: 10px 8px; font-size: 0.55rem; gap: 6px; }
-            .nav-item i { width: 20px; height: 20px; }
-            main { padding: 20px 18px 85px; height: calc(100vh - 70px); }
-            .home-grid { grid-template-columns: 1fr; text-align: center; gap: 25px; }
-            .hero-img { max-width: 200px; margin: 0 auto; }
-            .hero-info h1 { font-size: 2rem; }
-            .extra-desc { text-align: left; }
-        }
-    </style>
+@media (max-width: 900px) {
+    body { flex-direction: column; }
+    aside {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: auto;
+        padding: 10px;
+        flex-direction: row;
+        border-right: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .logoSide { display: none; }
+    .nav-menu {
+        flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
+    }
+    .nav-item {
+        flex-direction: column;
+        font-size: 0.5rem;
+        gap: 5px;
+        padding: 10px;
+    }
+    main {
+        padding: 20px 15px 80px;
+        height: calc(100vh - 75px);
+    }
+    .home-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .hero-img {
+        width: 180px;
+        margin: auto;
+    }
+    .hero-info h1 {
+        font-size: 2.4rem;
+    }
+    .video-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
 </head>
+
 <body>
 
 <div id="master-bg"></div>
 
 <aside>
-    <div class="logo-area">
-        <h2>NALDOA</h2>
-        <p>⚡ PLAY ⚡</p>
+    <div class="logoSide">
+        <h1>NALDOA</h1>
+        <p>NALDOA PLAY</p>
     </div>
     <nav class="nav-menu">
-        <button class="nav-item active" data-tab="home"><i data-lucide="user"></i><span>HOME</span></button>
-        <button class="nav-item" data-tab="radio"><i data-lucide="radio"></i><span>RÁDIO</span></button>
-        <button class="nav-item" data-tab="videos"><i data-lucide="play-circle"></i><span>VÍDEOS</span></button>
-        <button class="nav-item" data-tab="config"><i data-lucide="palette"></i><span>TEMAS</span></button>
+        <button class="nav-item active" onclick="tab('home',this)"><i data-lucide="user"></i> HOME</button>
+        <button class="nav-item" onclick="tab('radio',this)"><i data-lucide="radio"></i> RÁDIO</button>
+        <button class="nav-item" onclick="tab('videos',this)"><i data-lucide="play-circle"></i> VÍDEOS</button>
+        <button class="nav-item" onclick="tab('config',this)"><i data-lucide="palette"></i> TEMAS</button>
     </nav>
 </aside>
 
 <main>
     <!-- HOME -->
-    <div id="home" class="view active">
+    <section id="home" class="view active">
         <div class="home-grid">
-            <img src="https://placehold.co/600x600/0a0a1a/d4af37?text=NALDOA" class="hero-img" alt="NaldoA">
+            <img src="images/logo.jpg" class="hero-img" onerror="this.src='https://placehold.co/600x600/0a0a1a/d4af37?text=NALDOA'">
             <div class="hero-info">
-                <div class="badge-dj">⚡ TRANCE / PROGRESSIVE ⚡</div>
-                <h1>NALDOA</h1>
-                <p style="font-weight:500; margin-bottom:10px;">Produtor · Live Performer · EDM Architect</p>
+                <h1>NALDOA.</h1>
+                <p style="color:var(--primary);font-weight:700;margin-bottom:15px;">DJ, Produtor de EDM & Trance</p>
                 <div class="extra-desc">
-                    <strong>NaldoA Play</strong> - O universo imersivo de batidas eletrônicas. 
-                    Conecte-se com as plataformas oficiais e viva a experiência do Trance moderno.
-                    Sets exclusivos, rádio 24/7 e muito mais.
+                    Explore o ecossistema oficial <strong>NaldoA Play</strong>. Mergulhe em uma experiência visual e sonora premium com músicas, sets exclusivos, rádio online e conteúdos oficiais.
                 </div>
                 <div class="links-wall">
                     <a href="https://open.spotify.com/artist/05anJA6CE7Afkn0hYyVMRV" target="_blank" class="link-card"><i data-lucide="music"></i><span>SPOTIFY</span></a>
                     <a href="https://youtube.com/@djnaldoaoficial" target="_blank" class="link-card"><i data-lucide="youtube"></i><span>YOUTUBE</span></a>
                     <a href="https://music.apple.com/br/artist/naldoa/1782398892" target="_blank" class="link-card"><i data-lucide="apple"></i><span>APPLE</span></a>
                     <a href="https://www.soundon.global/bio/naldoa" target="_blank" class="link-card"><i data-lucide="share-2"></i><span>SOUNDON</span></a>
+                    <a href="https://music.amazon.com.br/artists/B0DP59T244/naldoa" target="_blank" class="link-card"><i data-lucide="headphones"></i><span>AMAZON</span></a>
+                    <a href="https://deezer.page.link/x7uW8uBfUuX" target="_blank" class="link-card"><i data-lucide="mic-2"></i><span>DEEZER</span></a>
                     <a href="https://instagram.com/naldoaoficial" target="_blank" class="link-card"><i data-lucide="instagram"></i><span>INSTAGRAM</span></a>
                     <a href="https://github.com/naldoaplay" target="_blank" class="link-card"><i data-lucide="github"></i><span>GITHUB</span></a>
                 </div>
             </div>
         </div>
-        <div class="footer-nav">✦ NALDOA PLAY © 2026 ✦</div>
-    </div>
+        <div class="footer-nav">NALDOA PLAY © 2026</div>
+    </section>
 
     <!-- RÁDIO -->
-    <div id="radio" class="view">
-        <div class="radio-sphere">
+    <section id="radio" class="view">
+        <div class="radio-center">
             <div class="radio-container">
                 <div class="spectrum-ring" id="ring"></div>
-                <img src="https://placehold.co/400x400/111122/d4af37?text=NALDOA+FM" class="radio-logo-main" alt="Rádio">
+                <img src="images/logo1.jpg" class="radio-logo-main" onerror="this.src='https://placehold.co/400x400/111122/d4af37?text=NALDOA+FM'">
             </div>
-            <h2 style="font-family:'Orbitron'; font-size:1.8rem; background:linear-gradient(135deg, var(--primary), #ffdd77); -webkit-background-clip:text; background-clip:text; color:transparent;">RÁDIO NALDOA</h2>
-            <p style="letter-spacing: 5px; font-size: 0.65rem; opacity:0.7;">🔊 LIVE 24/7</p>
-            
-            <button class="play-btn" id="radioBtn">
-                <i data-lucide="play" id="radioIcon" style="width: 42px; height: 42px; color:#000;"></i>
+            <h2 style="font-family:'Orbitron';font-size:2.2rem;color:var(--primary);">NALDOA PLAY</h2>
+            <div class="radio-status">SINTONIZADO AO VIVO</div>
+            <div class="radio-song" id="radioSong">🎧 Rádio Online EDM / Trance</div>
+            <button class="play-btn" id="playBtn">
+                <i data-lucide="play" id="playIcon" style="width:42px;height:42px;"></i>
             </button>
-            
-            <div class="status-text" id="radioStatus">🎧 Clique para ouvir ao vivo</div>
-            
-            <div class="volume-control">
-                <i data-lucide="volume-2" style="width: 18px; height: 18px;"></i>
-                <input type="range" id="volume" min="0" max="1" step="0.01" value="0.8">
-                <i data-lucide="volume-x" style="width: 18px; height: 18px;"></i>
-            </div>
-            
-            <div class="footer-nav">SINTONIA GLOBAL · TRANCE ENERGY</div>
+            <input id="volume" type="range" min="0" max="1" step="0.01" value="0.8" style="width:100%;max-width:350px;accent-color:var(--primary);">
         </div>
-    </div>
+        <div class="footer-nav">RÁDIO OFICIAL NALDOA PLAY</div>
+    </section>
 
     <!-- VÍDEOS -->
-    <div id="videos" class="view">
-        <h2 style="font-family:'Orbitron'; font-size:1.5rem; color:var(--primary); margin-bottom:20px;">🎬 VIDEOCLIPES OFICIAIS</h2>
+    <section id="videos" class="view">
+        <h2 style="font-family:'Orbitron';margin-bottom:30px;color:var(--primary);">DISCOGRAFIA VISUAL</h2>
         <div class="video-grid">
             <div class="video-box"><iframe src="https://www.youtube.com/embed/YwQkLOX8m0E" allowfullscreen></iframe></div>
             <div class="video-box"><iframe src="https://www.youtube.com/embed/sQeY8CwXQ9w" allowfullscreen></iframe></div>
@@ -599,193 +527,200 @@
             <div class="video-box"><iframe src="https://www.youtube.com/embed/zKaXDl5Texk" allowfullscreen></iframe></div>
             <div class="video-box"><iframe src="https://www.youtube.com/embed/mcx2w71PANE" allowfullscreen></iframe></div>
             <div class="video-box"><iframe src="https://www.youtube.com/embed/aZHefqVqXpU" allowfullscreen></iframe></div>
+            <div class="video-box"><iframe src="https://www.youtube.com/embed/AnYGQcgD1nY" allowfullscreen></iframe></div>
+            <div class="video-box"><iframe src="https://www.youtube.com/embed/cSvC3vtNCkQ" allowfullscreen></iframe></div>
+            <div class="video-box"><iframe src="https://www.youtube.com/embed/dGdda27vfRM" allowfullscreen></iframe></div>
+            <div class="video-box"><iframe src="https://www.youtube.com/embed/dwYoOnT_7Pc" allowfullscreen></iframe></div>
         </div>
-        <div class="footer-nav">DISCOGRAFIA COMPLETA NO YOUTUBE</div>
-    </div>
+        <div class="footer-nav">CONTEÚDO OFICIAL NALDOA</div>
+    </section>
 
-    <!-- TEMAS -->
-    <div id="config" class="view">
-        <h2 style="font-family:'Orbitron'; font-size:1.5rem; color:var(--primary); margin-bottom:20px;">🎨 PERSONALIZE O VISUAL</h2>
+    <!-- TEMAS - COMPLETO COM UPLOAD -->
+    <section id="config" class="view">
+        <h2 style="font-family:'Orbitron';color:var(--primary);margin-bottom:30px;">SUPER TEMAS</h2>
         
-        <div class="section-title">🌌 IMAGENS DE FUNDO</div>
+        <!-- PAISAGENS -->
         <div class="catalog-grid">
-            <div class="theme-opt" data-bg="https://images.unsplash.com/photo-1464802686167-b939a67e06a1" data-mode="dark"><div class="box" style="background-image:url('https://images.unsplash.com/photo-1464802686167-b939a67e06a1')"></div><span>UNIVERSO</span></div>
-            <div class="theme-opt" data-bg="https://images.unsplash.com/photo-1441974231531-c6227db76b6e" data-mode="light"><div class="box" style="background-image:url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e')"></div><span>FLORESTA</span></div>
-            <div class="theme-opt" data-bg="https://images.unsplash.com/photo-1514525253361-b83f859b73c0" data-mode="dark"><div class="box" style="background-image:url('https://images.unsplash.com/photo-1514525253361-b83f859b73c0')"></div><span>CLUB NIGHT</span></div>
-            <div class="theme-opt" data-bg="https://images.unsplash.com/photo-1550684848-fac1c5b4e853" data-mode="dark"><div class="box" style="background-image:url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853')"></div><span>CYBERPUNK</span></div>
+            <div class="theme-opt" onclick="setT('https://images.unsplash.com/photo-1464802686167-b939a67e06a1','dark')">
+                <div class="box" style="background-image:url('https://images.unsplash.com/photo-1464802686167-b939a67e06a1')"></div>UNIVERSO
+            </div>
+            <div class="theme-opt" onclick="setT('https://images.unsplash.com/photo-1441974231531-c6227db76b6e','light')">
+                <div class="box" style="background-image:url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e')"></div>FLORESTA
+            </div>
+            <div class="theme-opt" onclick="setT('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05','light')">
+                <div class="box" style="background-image:url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05')"></div>MONTANHA
+            </div>
+            <div class="theme-opt" onclick="setT('https://images.unsplash.com/photo-1507525428034-b723cf961d3e','light')">
+                <div class="box" style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e')"></div>PRAIA
+            </div>
+            <div class="theme-opt" onclick="setT('https://images.unsplash.com/photo-1514525253361-b83f859b73c0','dark')">
+                <div class="box" style="background-image:url('https://images.unsplash.com/photo-1514525253361-b83f859b73c0')"></div>CLUB
+            </div>
+            <div class="theme-opt" onclick="setT('https://images.unsplash.com/photo-1550684848-fac1c5b4e853','dark')">
+                <div class="box" style="background-image:url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853')"></div>CYBER
+            </div>
+            <div class="theme-opt" onclick="setT('https://images.unsplash.com/photo-1506905925346-21bda4d32df4','light')">
+                <div class="box" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4')"></div>MONTANHAS
+            </div>
+            <div class="theme-opt" onclick="setT('https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5','light')">
+                <div class="box" style="background-image:url('https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5')"></div>LAGO
+            </div>
         </div>
 
-        <div class="section-title">🎨 GRADIENTES MODERNOS</div>
+        <!-- GRADIENTES -->
         <div class="catalog-grid">
-            <div class="theme-opt" data-grad="linear-gradient(135deg, #667eea 0%, #764ba2 100%)" data-mode="dark"><div class="box" style="background:linear-gradient(135deg, #667eea, #764ba2)"></div><span>ROYAL</span></div>
-            <div class="theme-opt" data-grad="linear-gradient(135deg, #f093fb 0%, #f5576c 100%)" data-mode="light"><div class="box" style="background:linear-gradient(135deg, #f093fb, #f5576c)"></div><span>PINK DREAM</span></div>
-            <div class="theme-opt" data-grad="linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)" data-mode="light"><div class="box" style="background:linear-gradient(135deg, #4facfe, #00f2fe)"></div><span>OCEAN</span></div>
-            <div class="theme-opt" data-grad="linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)" data-mode="light"><div class="box" style="background:linear-gradient(135deg, #43e97b, #38f9d7)"></div><span>MINT</span></div>
-            <div class="theme-opt" data-grad="linear-gradient(135deg, #fa709a 0%, #fee140 100%)" data-mode="light"><div class="box" style="background:linear-gradient(135deg, #fa709a, #fee140)"></div><span>SUNSET</span></div>
-            <div class="theme-opt" data-grad="linear-gradient(135deg, #1e1e2f 0%, #2d2d44 100%)" data-mode="dark"><div class="box" style="background:linear-gradient(135deg, #1e1e2f, #2d2d44)"></div><span>DARK ELEGANT</span></div>
+            <div class="theme-opt" onclick="setT('linear-gradient(45deg,#00f2fe,#4facfe)','light',true)">
+                <div class="box" style="background:linear-gradient(45deg,#00f2fe,#4facfe)"></div>CYAN
+            </div>
+            <div class="theme-opt" onclick="setT('linear-gradient(45deg,#ee0979,#ff6a00)','dark',true)">
+                <div class="box" style="background:linear-gradient(45deg,#ee0979,#ff6a00)"></div>FIRE
+            </div>
+            <div class="theme-opt" onclick="setT('linear-gradient(45deg,#8e2de2,#4a00e0)','dark',true)">
+                <div class="box" style="background:linear-gradient(45deg,#8e2de2,#4a00e0)"></div>PURPLE
+            </div>
+            <div class="theme-opt" onclick="setT('linear-gradient(45deg,#11998e,#38ef7d)','light',true)">
+                <div class="box" style="background:linear-gradient(45deg,#11998e,#38ef7d)"></div>LIME
+            </div>
+            <div class="theme-opt" onclick="setT('linear-gradient(45deg,#f093fb,#f5576c)','light',true)">
+                <div class="box" style="background:linear-gradient(45deg,#f093fb,#f5576c)"></div>PINK
+            </div>
+            <div class="theme-opt" onclick="setT('linear-gradient(45deg,#667eea,#764ba2)','dark',true)">
+                <div class="box" style="background:linear-gradient(45deg,#667eea,#764ba2)"></div>ROYAL
+            </div>
         </div>
 
-        <div class="section-title">✨ COR DE DESTAQUE</div>
+        <!-- PALETA DE CORES -->
         <div class="palette">
-            <div class="color-dot" style="background:#d4af37" data-color="#d4af37"></div>
-            <div class="color-dot" style="background:#00f2fe" data-color="#00f2fe"></div>
-            <div class="color-dot" style="background:#ff0055" data-color="#ff0055"></div>
-            <div class="color-dot" style="background:#00ff99" data-color="#00ff99"></div>
-            <div class="color-dot" style="background:#9d00ff" data-color="#9d00ff"></div>
-            <div class="color-dot" style="background:#ff6a00" data-color="#ff6a00"></div>
-            <div class="color-dot" style="background:#ffffff" data-color="#ffffff"></div>
+            <button class="color-dot" style="background:#d4af37" onclick="setC('#d4af37')"></button>
+            <button class="color-dot" style="background:#00f2fe" onclick="setC('#00f2fe')"></button>
+            <button class="color-dot" style="background:#ff0055" onclick="setC('#ff0055')"></button>
+            <button class="color-dot" style="background:#00ff00" onclick="setC('#00ff00')"></button>
+            <button class="color-dot" style="background:#9d00ff" onclick="setC('#9d00ff')"></button>
+            <button class="color-dot" style="background:#ff6a00" onclick="setC('#ff6a00')"></button>
+            <button class="color-dot" style="background:#ffffff" onclick="setC('#ffffff')"></button>
+            <button class="color-dot" style="background:#ff3366" onclick="setC('#ff3366')"></button>
         </div>
-        
-        <div class="footer-nav">TOTAL IMERSÃO VISUAL</div>
-    </div>
+
+        <!-- UPLOAD DE IMAGEM PERSONALIZADA -->
+        <div class="upload-area">
+            <label class="upload-label">
+                <i data-lucide="upload"></i>
+                <span>ADICIONAR MINHA IMAGEM</span>
+                <input type="file" id="imageUpload" accept="image/*">
+            </label>
+            <p style="margin-top:12px;font-size:0.7rem;opacity:0.6;">Clique para usar sua própria imagem de fundo</p>
+        </div>
+
+        <div class="footer-nav">TOTAL IMERSÃO · TEMA AO SEU ESTILO</div>
+    </section>
 </main>
 
-<audio id="audio" preload="none"></audio>
+<audio id="radioAudio" playsinline webkit-playsinline preload="none"></audio>
 
 <script>
-    // ==================== INICIALIZAÇÃO DOS ÍCONES ====================
-    function refreshIcons() {
-        lucide.createIcons();
-    }
-    refreshIcons();
+lucide.createIcons();
 
-    // ==================== SISTEMA DE ABAS ====================
-    const tabs = document.querySelectorAll('.nav-item');
-    const views = document.querySelectorAll('.view');
-    
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function(e) {
-            const tabId = this.getAttribute('data-tab');
-            
-            tabs.forEach(t => t.classList.remove('active'));
-            this.classList.add('active');
-            
-            views.forEach(view => view.classList.remove('active'));
-            const targetView = document.getElementById(tabId);
-            if(targetView) targetView.classList.add('active');
-            
-            refreshIcons();
-        });
-    });
-    
-    // ==================== RÁDIO FUNCIONAL ====================
-    const audio = document.getElementById('audio');
-    const radioBtn = document.getElementById('radioBtn');
-    const radioIcon = document.getElementById('radioIcon');
-    const radioStatus = document.getElementById('radioStatus');
-    const ring = document.getElementById('ring');
-    const volumeSlider = document.getElementById('volume');
-    
-    let isRadioPlaying = false;
-    const STREAM_URL = "https://stream.zeno.fm/s49f874w3duv";
-    
-    if(volumeSlider) {
-        volumeSlider.addEventListener('input', function() {
-            audio.volume = parseFloat(this.value);
-        });
-        audio.volume = 0.8;
-    }
-    
-    function toggleRadio() {
-        if(!isRadioPlaying || audio.paused) {
-            if(audio.src !== STREAM_URL) {
-                audio.src = STREAM_URL;
-                audio.load();
-            }
-            
-            audio.play()
-                .then(() => {
-                    isRadioPlaying = true;
-                    if(radioIcon) radioIcon.setAttribute('data-lucide', 'pause');
-                    if(ring) ring.style.animationPlayState = 'running';
-                    if(radioStatus) {
-                        radioStatus.innerHTML = '🎵 TOCANDO AGORA · NaldoA Live Stream 🎵';
-                        radioStatus.style.background = 'rgba(212,175,55,0.2)';
-                        radioStatus.style.borderColor = 'rgba(212,175,55,0.5)';
-                    }
-                    refreshIcons();
-                })
-                .catch(err => {
-                    console.error('Erro ao tocar:', err);
-                    if(radioStatus) {
-                        radioStatus.innerHTML = '⚠️ Clique novamente para iniciar a rádio ⚠️';
-                        radioStatus.style.background = 'rgba(255,0,0,0.15)';
-                    }
-                    isRadioPlaying = false;
-                    if(radioIcon) radioIcon.setAttribute('data-lucide', 'play');
-                    refreshIcons();
-                });
+// ==================== FUNÇÃO DAS ABAS ====================
+function tab(id, btn) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    lucide.createIcons();
+}
+
+// ==================== RÁDIO FUNCIONAL ====================
+const audio = document.getElementById('radioAudio');
+const playBtn = document.getElementById('playBtn');
+const volume = document.getElementById('volume');
+const ring = document.getElementById('ring');
+const radioSong = document.getElementById('radioSong');
+const streamUrl = 'https://stream.zeno.fm/s49f874w3duv/stream';
+
+audio.src = streamUrl;
+audio.load();
+audio.volume = 0.8;
+
+volume.addEventListener('input', () => { audio.volume = volume.value; });
+
+playBtn.addEventListener('click', async () => {
+    try {
+        if (audio.paused) {
+            await audio.play();
+            document.getElementById('playIcon').setAttribute('data-lucide', 'pause');
+            ring.style.animationPlayState = 'running';
+            radioSong.innerHTML = '🎵 TOCANDO AGORA · NaldoA Live EDM/Trance 🎵';
+            radioSong.style.color = 'var(--primary)';
         } else {
             audio.pause();
-            isRadioPlaying = false;
-            if(radioIcon) radioIcon.setAttribute('data-lucide', 'play');
-            if(ring) ring.style.animationPlayState = 'paused';
-            if(radioStatus) {
-                radioStatus.innerHTML = '⏸️ Rádio pausada · Clique para voltar a ouvir ⏸️';
-                radioStatus.style.background = 'rgba(0,0,0,0.6)';
-            }
-            refreshIcons();
+            document.getElementById('playIcon').setAttribute('data-lucide', 'play');
+            ring.style.animationPlayState = 'paused';
+            radioSong.innerHTML = '🎧 Rádio Online EDM / Trance';
+            radioSong.style.color = '';
         }
+        lucide.createIcons();
+    } catch (err) {
+        console.log('Erro:', err);
+        radioSong.innerHTML = '⚠️ Clique novamente para iniciar a rádio ⚠️';
+    }
+});
+
+// ==================== FUNÇÕES DOS TEMAS ====================
+function setT(src, mode, isGrad = false) {
+    const bg = document.getElementById('master-bg');
+    if (isGrad) {
+        bg.style.backgroundImage = 'none';
+        bg.style.background = src;
+    } else {
+        bg.style.background = '#000';
+        bg.style.backgroundImage = `url('${src}')`;
+        bg.style.backgroundSize = 'cover';
+        bg.style.backgroundPosition = 'center';
     }
     
-    if(radioBtn) radioBtn.addEventListener('click', toggleRadio);
-    
-    // ==================== TEMAS COM AJUSTE DE CORES ====================
-    const bgDiv = document.getElementById('master-bg');
-    
-    function updateTextColors(mode) {
-        if(mode === 'light') {
-            document.documentElement.style.setProperty('--text-color', '#1a1a2e');
-            document.documentElement.style.setProperty('--text-secondary', 'rgba(26, 26, 46, 0.7)');
-            document.documentElement.style.setProperty('--bg-glass', 'rgba(250, 245, 240, 0.88)');
-            document.documentElement.style.setProperty('--card-bg', 'rgba(255, 255, 245, 0.7)');
-            document.documentElement.style.setProperty('--border-light', 'rgba(0, 0, 0, 0.1)');
-        } else {
-            document.documentElement.style.setProperty('--text-color', '#ffffff');
-            document.documentElement.style.setProperty('--text-secondary', 'rgba(255, 255, 255, 0.7)');
-            document.documentElement.style.setProperty('--bg-glass', 'rgba(0, 0, 0, 0.82)');
-            document.documentElement.style.setProperty('--card-bg', 'rgba(15, 15, 25, 0.7)');
-            document.documentElement.style.setProperty('--border-light', 'rgba(255, 255, 255, 0.1)');
-        }
+    if (mode === 'light') {
+        document.documentElement.style.setProperty('--text-color', '#000');
+        document.documentElement.style.setProperty('--bg-glass', 'rgba(255,255,255,0.85)');
+    } else {
+        document.documentElement.style.setProperty('--text-color', '#fff');
+        document.documentElement.style.setProperty('--bg-glass', 'rgba(0,0,0,0.85)');
     }
-    
-    document.querySelectorAll('.theme-opt[data-bg]').forEach(opt => {
-        opt.addEventListener('click', function() {
-            const imgUrl = this.getAttribute('data-bg');
-            const mode = this.getAttribute('data-mode');
-            bgDiv.style.backgroundImage = `url('${imgUrl}')`;
-            bgDiv.style.backgroundSize = 'cover';
-            updateTextColors(mode);
-        });
+}
+
+function setC(c) {
+    document.documentElement.style.setProperty('--primary', c);
+    const r = parseInt(c.slice(1,3), 16);
+    const g = parseInt(c.slice(3,5), 16);
+    const b = parseInt(c.slice(5,7), 16);
+    document.documentElement.style.setProperty('--accent-glow', `rgba(${r}, ${g}, ${b}, 0.45)`);
+}
+
+// ==================== UPLOAD DE IMAGEM PERSONALIZADA ====================
+const imageUpload = document.getElementById('imageUpload');
+if (imageUpload) {
+    imageUpload.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const bg = document.getElementById('master-bg');
+                bg.style.backgroundImage = `url('${event.target.result}')`;
+                bg.style.backgroundSize = 'cover';
+                bg.style.backgroundPosition = 'center';
+                // Mantém o modo escuro por padrão
+                document.documentElement.style.setProperty('--text-color', '#fff');
+                document.documentElement.style.setProperty('--bg-glass', 'rgba(0,0,0,0.85)');
+            };
+            reader.readAsDataURL(file);
+        }
     });
-    
-    document.querySelectorAll('.theme-opt[data-grad]').forEach(opt => {
-        opt.addEventListener('click', function() {
-            const gradient = this.getAttribute('data-grad');
-            const mode = this.getAttribute('data-mode');
-            bgDiv.style.backgroundImage = gradient;
-            bgDiv.style.backgroundSize = 'cover';
-            updateTextColors(mode);
-        });
-    });
-    
-    document.querySelectorAll('.color-dot').forEach(dot => {
-        dot.addEventListener('click', function() {
-            const color = this.getAttribute('data-color');
-            document.documentElement.style.setProperty('--primary', color);
-            document.documentElement.style.setProperty('--primary-rgb', 
-                parseInt(color.slice(1,3),16) + ', ' + 
-                parseInt(color.slice(3,5),16) + ', ' + 
-                parseInt(color.slice(5,7),16));
-            document.documentElement.style.setProperty('--primary-glow', `rgba(${document.documentElement.style.getPropertyValue('--primary-rgb')}, 0.4)`);
-        });
-    });
-    
-    // Fundo inicial
-    bgDiv.style.backgroundImage = "url('https://images.unsplash.com/photo-1464802686167-b939a67e06a1')";
-    bgDiv.style.backgroundSize = 'cover';
-    
-    console.log('✅ NaldoA Play 100% funcional!');
+}
+
+// Fundo inicial
+document.getElementById('master-bg').style.backgroundImage = "url('https://images.unsplash.com/photo-1464802686167-b939a67e06a1')";
+document.getElementById('master-bg').style.backgroundSize = 'cover';
+
+console.log('✅ App 100% funcional!');
 </script>
 </body>
 </html>
