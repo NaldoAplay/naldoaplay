@@ -32,10 +32,11 @@
             100% { transform: scale(0.95); opacity: 0.8; }
         }
 
+        /* imagens/logo.jpg configurada fixo como plano de fundo padrão */
         #master-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
             background-size: cover; background-position: center; filter: brightness(0.25);
-            transition: 1s ease; background-image: url('https://images.unsplash.com/photo-1464802686167-b939a67e06a1');
+            transition: 1s ease; background-image: url('images/logo.jpg');
         }
 
         ::-webkit-scrollbar { width: 5px; }
@@ -137,14 +138,14 @@
                 <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #130cb7, #52e5e7)', 'dark')"><div class="w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #130cb7, #52e5e7)"></div><span class="text-[10px] block font-semibold truncate">Aurora Wave</span></div>
                 <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #fc00ff, #00dbde)', 'dark')"><div class="w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #fc00ff, #00dbde)"></div><span class="text-[10px] block font-semibold truncate">Neon Fluid</span></div>
                 <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #bf55ec, #7d3c98)', 'dark')"><div class="w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #bf55ec, #7d3c98)"></div><span class="text-[10px] block font-semibold truncate">Trance Purple</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #ed213a, #93291e)', 'dark')"><div class="w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #ed213a, #93291e)"></div><span class="text-[10px] block font-semibold truncate">Inferno Club</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #1f4037, #99f2c8)', 'light')"><div class="w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #1f4037, #99f2c8)"></div><span class="text-[10px] block font-semibold truncate">Bio Mint</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #ff007f, #ffaa00)', 'dark')"><div class="w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #ff007f, #ffaa00)"></div><span class="text-[10px] block font-semibold truncate">Miami Sunset</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #000000, #434343)', 'dark')"><div class="w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #000000, #434343)"></div><span class="text-[10px] block font-semibold truncate">Pure Carbon</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #ff4e50, #f9d423)', 'light')"><div class="w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #ff4e50, #f9d423)"></div><span class="text-[10px] block font-semibold truncate">Gold Fire</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #4e54c8, #8f94fb)', 'dark')"><div class="w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #4e54c8, #8f94fb)"></div><span class="text-[10px] block font-semibold truncate">Cyber Wave</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #11998e, #38ef7d)', 'light')"><div class="w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #11998e, #38ef7d)"></div><span class="text-[10px] block font-semibold truncate">Acid Green</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #3a7bd5, #3a6073)', 'dark')"><div class="w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #3a7bd5, #3a6073)"></div><span class="text-[10px] block font-semibold truncate">Stellar Blue</span></div>
+                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #ed213a, #93291e)', 'dark')"><div class="box w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #ed213a, #93291e)"></div><span class="text-[10px] block font-semibold truncate">Inferno Club</span></div>
+                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #1f4037, #99f2c8)', 'light')"><div class="box w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #1f4037, #99f2c8)"></div><span class="text-[10px] block font-semibold truncate">Bio Mint</span></div>
+                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #ff007f, #ffaa00)', 'dark')"><div class="box w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #ff007f, #ffaa00)"></div><span class="text-[10px] block font-semibold truncate">Miami Sunset</span></div>
+                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #000000, #434343)', 'dark')"><div class="box w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #000000, #434343)"></div><span class="text-[10px] block font-semibold truncate">Pure Carbon</span></div>
+                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #ff4e50, #f9d423)', 'light')"><div class="box w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #ff4e50, #f9d423)"></div><span class="text-[10px] block font-semibold truncate">Gold Fire</span></div>
+                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #4e54c8, #8f94fb)', 'dark')"><div class="box w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #4e54c8, #8f94fb)"></div><span class="text-[10px] block font-semibold truncate">Cyber Wave</span></div>
+                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #11998e, #38ef7d)', 'light')"><div class="box w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #11998e, #38ef7d)"></div><span class="text-[10px] block font-semibold truncate">Acid Green</span></div>
+                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #3a7bd5, #3a6073)', 'dark')"><div class="box" style="background:linear-gradient(135deg, #3a7bd5, #3a6073)"></div><span class="text-[10px] block font-semibold truncate">Stellar Blue</span></div>
             </div>
         </section>
 
@@ -160,30 +161,41 @@
         const audio = document.getElementById('core');
         const ring = document.getElementById('ring');
         const statusRadio = document.getElementById('main-status');
+        const playIcon = document.getElementById('p-icon');
         const streamUrl = "https://stream.zeno.fm/xx785t45mf9uv/;";
 
         function toggleAudio() {
             if (audio.paused || audio.src === "" || !audio.src.includes("xx785t45mf9uv")) {
-                statusRadio.innerText = "SINTONIZANDO...";
+                // Estado: Carregando/Conectando
+                statusRadio.innerText = "CONECTANDO...";
                 statusRadio.className = "font-orbitron text-xs md:text-sm tracking-[6px] uppercase text-yellow-500 animate-pulse";
+                playIcon.className = "fas fa-spinner animate-spin"; // Ícone de carregamento giratório
+                
                 audio.src = streamUrl;
-                audio.play().then(() => {
-                    document.getElementById('p-icon').className = "fas fa-pause";
-                    ring.style.animationPlayState = 'running';
-                    statusRadio.innerText = "TRANSMITINDO AO VIVO";
-                    statusRadio.className = "font-orbitron text-xs md:text-sm tracking-[6px] uppercase text-emerald-400 font-bold";
-                }).catch(() => {
-                    statusRadio.innerText = "ERRO DE CONEXÃO";
-                    statusRadio.className = "font-orbitron text-xs md:text-sm tracking-[6px] uppercase text-red-500";
-                });
+                audio.play();
             } else {
+                // Estado: Pausado
                 audio.pause(); audio.src = ""; audio.load();
-                document.getElementById('p-icon').className = "fas fa-play ml-1";
+                playIcon.className = "fas fa-play ml-1";
                 ring.style.animationPlayState = 'paused';
                 statusRadio.innerText = "PAUSADO";
                 statusRadio.className = "font-orbitron text-xs md:text-sm tracking-[6px] uppercase text-gray-400";
             }
         }
+
+        // Evento disparado nativamente pelo navegador assim que o áudio começa a tocar de verdade
+        audio.addEventListener('playing', () => {
+            playIcon.className = "fas fa-pause";
+            ring.style.animationPlayState = 'running';
+            statusRadio.innerText = "TRANSMITINDO AO VIVO";
+            statusRadio.className = "font-orbitron text-xs md:text-sm tracking-[6px] uppercase text-emerald-400 font-bold";
+        });
+
+        // Evento disparado caso o fluxo de áudio sofra alguma interrupção por falta de rede
+        audio.addEventListener('waiting', () => {
+            statusRadio.innerText = "CARREGANDO BUFFER...";
+            playIcon.className = "fas fa-spinner animate-spin";
+        });
 
         function setVol(v) { audio.volume = v; }
 
