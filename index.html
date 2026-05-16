@@ -7,6 +7,13 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@300;400;600;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="manifest" href="./manifest.json">
+
+    <meta name="theme-color" content="#030313">
+    <link rel="apple-touch-icon" href="./images/icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="NaldoA Play">
 
     <style>
         :root {
@@ -31,13 +38,14 @@
             transition: 1s ease; background-image: url('https://images.unsplash.com/photo-1464802686167-b939a67e06a1');
         }
 
-        /* SIDEBAR (TV/PC) */
+        /* SIDEBAR */
         aside {
             width: 280px; background: var(--bg-glass); backdrop-filter: blur(30px);
             border-right: 1px solid rgba(255,255,255,0.1);
             display: flex; flex-direction: column; padding: 40px 20px; z-index: 1000;
-            transition: 0.3s;
+            transition: 0.3s ease;
         }
+        body.cinema-fullscreen aside { display: none !important; }
 
         .nav-menu { display: flex; flex-direction: column; gap: 10px; flex: 1; }
         .nav-item {
@@ -51,8 +59,11 @@
 
         /* AREA DE CONTEÚDO */
         main { flex: 1; height: 100vh; position: relative; overflow-y: auto; scroll-behavior: smooth; }
+        body.cinema-fullscreen main { padding: 0 !important; overflow: hidden; }
         .view { display: none; padding: 30px; width: 100%; }
         .view.active { display: flex; flex-direction: column; }
+        body.cinema-fullscreen .view.active { padding: 0 !important; height: 100vh; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
 
         /* CARROSSEL DE DESTAQUES NA HOME */
         .home-slider {
@@ -75,52 +86,54 @@
         .extra-desc { margin-top: 20px; line-height: 1.6; font-size: 0.9rem; color: rgba(255,255,255,0.7); border-left: 2px solid var(--primary); padding-left: 15px; }
 
         .links-wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-top: 25px; }
-        .link-card { background: rgba(255,255,255,0.05); border: 2px solid transparent; padding: 15px; border-radius: 15px; text-align: center; text-decoration: none; color: inherit; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .link-card { background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; text-align: center; text-decoration: none; color: inherit; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 8px; }
         .link-card:hover, .link-card:focus { background: var(--primary); color: #000; transform: translateY(-5px); outline: none; border-color: var(--focus-border); }
         .link-card span { font-family: 'Orbitron'; font-size: 0.55rem; font-weight: 700; }
 
-        /* PLAYER DE RÁDIO PREMIUM UPGRADED */
+        /* PLAYER COM ESPECTRO */
         .radio-container { position: relative; width: 280px; height: 280px; margin: 0 auto 30px; display: flex; align-items: center; justify-content: center; }
-        .spectrum-ring { position: absolute; width: 100%; height: 100%; border: 4px solid var(--primary); border-radius: 50%; animation: pulse-ring 2s infinite linear; box-shadow: 0 0 30px var(--accent-glow); animation-play-state: paused; }
+        .spectrum-ring {
+            position: absolute; width: 100%; height: 100%;
+            border: 4px solid var(--primary); border-radius: 50%;
+            animation: pulse-ring 2s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955);
+            box-shadow: 0 0 30px var(--accent-glow);
+            animation-play-state: paused;
+        }
         @keyframes pulse-ring { 0% { transform: scale(0.95); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 0.3; border-width: 8px; } 100% { transform: scale(0.95); opacity: 0.8; } }
         .radio-logo-main { width: 220px; height: 220px; border-radius: 50%; object-fit: cover; z-index: 2; border: 4px solid #fff; box-shadow: 0 0 25px rgba(0,0,0,0.5); }
         
-        .play-btn-vivo { 
-            width: 100px; height: 100px; border-radius: 50%; background: var(--primary); border: 2px solid transparent; 
-            margin: 0 auto; cursor: pointer; display: flex; align-items: center; justify-content: center; 
+        .play-btn-vivo {
+            width: 90px; height: 90px; border-radius: 50%; background: var(--primary); border: 2px solid transparent; 
+            margin: 0 auto; cursor: pointer; display: flex; align-items: center; justify-content: center;
             box-shadow: 0 0 40px var(--accent-glow); transition: 0.3s;
         }
         .play-btn-vivo:focus { border-color: var(--focus-border); transform: scale(1.1); outline: none; }
-        .play-btn-vivo svg { width: 40px; height: 40px; fill: #000; color: #000; }
 
-        /* ENGINE CINEMA DE TV (FIX COMPLETO PARA TELA CHEIA REAL COM INFOS) */
-        .tv-layout { display: grid; grid-template-columns: 1fr 320px; gap: 25px; height: calc(100vh - 120px); }
+        /* ABA INTERATIVA DE TV / AJUSTADA E COMPATÍVEL */
+        .tv-layout { display: grid; grid-template-columns: 1fr 340px; gap: 25px; height: calc(100vh - 120px); }
+        body.cinema-fullscreen .tv-layout { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 99999; background: #000; grid-template-columns: 1fr; gap: 0; }
+        
         .video-stage-wrapper { display: flex; flex-direction: column; width: 100%; height: 100%; }
         
-        /* Esse container engole a tela cheia mantendo o HTML interno visível */
         .main-video-container { 
             position: relative; width: 100%; aspect-ratio: 16/9; background: #000; 
             border-radius: 20px; overflow: hidden; border: 3px solid rgba(255,255,255,0.1); 
             box-shadow: 0 20px 50px rgba(0,0,0,0.8); transition: border-color 0.3s;
         }
         .main-video-container:focus-within { border-color: var(--primary); outline: none; }
-        
-        /* Reset para quando o Container estiver em Modo Tela Cheia Nativo do Navegador */
-        .main-video-container:fullscreen { width: 100vw !important; height: 100vh !important; border-radius: 0 !important; border: none !important; }
-        .main-video-container:-webkit-full-screen { width: 100vw !important; height: 100vh !important; border-radius: 0 !important; border: none !important; }
-        
+        body.cinema-fullscreen .main-video-container { width: 100vw; height: 100vh; border-radius: 0; border: none; aspect-ratio: auto; }
         .main-video-container video { width: 100%; height: 100%; object-fit: contain; }
-        
-        /* HUD OSD INALTERÁVEL EM TELA CHEIA */
+
+        /* HUD OSD DE CONTROLE EM TELA CHEIA */
         .video-ui-overlay {
             position: absolute; bottom: 0; left: 0; right: 0; top: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
             padding: 40px 30px; opacity: 0; transition: opacity 0.4s ease; 
-            display: flex; align-items: flex-end; justify-content: space-between; z-index: 2147483647; pointer-events: none;
+            display: flex; align-items: flex-end; justify-content: space-between; z-index: 10; pointer-events: none;
         }
         .main-video-container.show-controls .video-ui-overlay { opacity: 1; pointer-events: auto; }
         
-        .current-info { display: flex; align-items: center; gap: 20px; pointer-events: auto; }
+        .current-info { display: flex; align-items: center; gap: 20px; }
         .current-logo { width: 75px; height: 75px; object-fit: contain; background: rgba(255,255,255,0.15); border-radius: 12px; padding: 5px; border: 1px solid rgba(255,255,255,0.2); }
         .current-text h3 { font-family: 'Orbitron'; color: var(--primary); font-size: 1.5rem; letter-spacing: 1px; text-shadow: 0 2px 4px rgba(0,0,0,0.9); }
         .current-text p { font-size: 0.9rem; opacity: 0.8; margin-top: 4px; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
@@ -135,6 +148,13 @@
 
         /* LISTA DE CANAIS */
         .sidebar-channels { display: flex; flex-direction: column; gap: 15px; height: 100%; }
+        body.cinema-fullscreen .sidebar-channels {
+            position: absolute; right: 0; top: 0; bottom: 0; width: 340px;
+            background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 10000;
+            transform: translateX(100%); padding: 30px 20px; border-left: 2px solid var(--primary); transition: transform 0.3s ease;
+        }
+        body.cinema-fullscreen .sidebar-channels.active-overlay-fs { transform: translateX(0); }
+
         .iptv-scroll-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 5px; }
         .iptv-scroll-area::-webkit-scrollbar { width: 5px; }
         .iptv-scroll-area::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
@@ -147,7 +167,7 @@
         .channel-row.active-channel { background: rgba(214, 175, 55, 0.15); border-color: var(--primary); }
         
         .ch-logo { width: 45px; height: 45px; object-fit: contain; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 3px; }
-        .ch-details { flex: 1; min-width: 0; }
+        .ch-details { flex: 1; min-width: 0; text-align: left; }
         .ch-details h4 { font-family: 'Orbitron'; font-size: 0.75rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .ch-details p { font-size: 0.65rem; opacity: 0.5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
         
@@ -155,38 +175,50 @@
         .fav-star:focus { border-color: white; background: rgba(255,255,255,0.1); outline: none; }
         .fav-star.is-fav { color: var(--primary); fill: var(--primary); }
 
-        /* VÍDEOS DISCOGRAFIA */
+        /* VÍDEOS BORDAS LUXO */
         .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; width: 100%; }
-        .video-box { background: #000; border-radius: 25px; overflow: hidden; border: 3px solid rgba(255,255,255,0.1); aspect-ratio: 16/9; transition: 0.4s; position: relative; }
+        .video-box { 
+            background: #000; border-radius: 25px; overflow: hidden; 
+            border: 3px solid rgba(255,255,255,0.1); aspect-ratio: 16/9; 
+            transition: 0.4s; position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
         .video-box:hover { border-color: var(--primary); transform: scale(1.03); box-shadow: 0 15px 40px var(--accent-glow); }
         .video-box iframe { width: 100%; height: 100%; border: none; }
 
-        /* CATALOGO MASSIVO DE TEMAS GRADIENTES (+20 TEMAS) */
-        .catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        /* CATÁLOGO DE TEMAS MANTIDO INTEGRO */
+        .catalog-section { margin-top: 20px; }
+        .catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px; margin-bottom: 30px; }
         .theme-opt { cursor: pointer; text-align: center; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 15px; border: 2px solid transparent; transition: 0.2s; }
-        .theme-opt:hover, .theme-opt:focus { border-color: var(--primary); outline: none; transform: translateY(-5px); }
+        .theme-opt:hover, .theme-opt:focus { border-color: var(--primary); transform: translateY(-5px); outline: none; }
         .theme-opt .box { width: 100%; height: 60px; border-radius: 10px; margin-bottom: 8px; background-size: cover; background-position: center; }
 
+        /* PALETA DE CORES */
         .palette { display: flex; flex-wrap: wrap; gap: 12px; }
         .color-dot { width: 45px; height: 45px; border-radius: 50%; border: 3px solid #fff; cursor: pointer; transition: 0.3s; }
         .color-dot:hover, .color-dot:focus { transform: scale(1.2); outline: none; }
 
         .footer-nav { margin: 50px 0 20px; text-align: center; opacity: 0.5; font-size: 0.7rem; letter-spacing: 4px; font-family: 'Orbitron'; color: var(--primary); }
 
-        /* AJUSTES MOBILE SENSÍVEIS */
+        /* RESPONSIVIDADE EXCLUSIVA CELULAR (COMPATIBILIDADE SENSÍVEL) */
         @media (max-width: 900px) {
             body { flex-direction: column; }
             aside { width: 100%; height: auto; position: fixed; bottom: 0; top: auto; flex-direction: row; padding: 10px; border-top: 1px solid var(--primary); border-right: none; }
+            body.cinema-fullscreen aside { display: none !important; }
             .nav-menu { flex-direction: row; justify-content: space-around; width: 100%; }
-            .nav-item { flex-direction: column; font-size: 0.5rem; padding: 8px; gap: 5px; width: 20%; text-align: center; justify-content: center; }
+            .nav-item { flex-direction: column; font-size: 0.5rem; padding: 8px; border: none; gap: 5px; text-align: center; justify-content: center; }
             .hide-mobile { display: none; }
             main { height: calc(100vh - 70px); }
+            body.cinema-fullscreen main { height: 100vh; }
             .home-slider { height: 200px; }
             .home-grid { grid-template-columns: 1fr; text-align: center; }
             .hero-img { width: 150px; margin: 0 auto; }
             .hero-info h1 { font-size: 2.2rem; }
-            .tv-layout { grid-template-columns: 1fr; height: auto; overflow: visible; }
-            .sidebar-channels { height: 400px; }
+            
+            /* Ajuste milimétrico para a Aba da TV no celular */
+            .tv-layout { grid-template-columns: 1fr; height: auto; overflow: visible; gap: 15px; }
+            .sidebar-channels { height: 380px; padding-bottom: 20px; }
+            body.cinema-fullscreen .sidebar-channels { width: 280px; }
             .tv-clock-time { font-size: 1.2rem; }
         }
     </style>
@@ -210,7 +242,6 @@
     </aside>
 
     <main id="scroller">
-        
         <section id="home" class="view active">
             <div class="home-slider" id="mainSlider">
                 <div class="slider-overlay">
@@ -220,14 +251,13 @@
             </div>
 
             <div class="home-grid">
-                <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=500" class="hero-img">
+                <img src="logo.jpg" class="hero-img">
                 <div class="hero-info">
                     <h1>NALDOA<span>.</span></h1>
                     <p style="opacity:0.9; font-weight: 600; font-size: 0.9rem; margin-bottom: 10px; color: var(--primary);">DJ, Produtor de EDM & Trance</p>
                     
                     <div class="extra-desc">
-                        Bem-vindo ao canal oficial <b>NaldoA Play</b>. Este é o ponto central de conexão para todos os amantes da música eletrônica. Explore nossa fusão única de batidas Progressivas e a energia pura do Trance. 
-                        Aqui você tem acesso direto aos lançamentos globais, sets exclusivos no YouTube e Spotify, além da nossa rádio sintonizada 24h por dia com o melhor do ecossistema NaldoA.
+                        Explore o ecossistema oficial <b>NaldoA Play</b>. Aqui você encontra a fusão perfeita entre batidas Progressivas e a energia do Trance. Navegue pelos nossos canais oficiais, acompanhe lançamentos globais e mergulhe em uma experiência visual e sonora exclusiva feita para quem vive a música eletrônica intensamente.
                     </div>
 
                     <div class="links-wall">
@@ -242,31 +272,27 @@
                     </div>
                 </div>
             </div>
-            <div class="footer-nav">NALDOA PLAY</div>
+            <div class="footer-nav">NALDOA PLAY © 2026</div>
         </section>
 
         <section id="radio" class="view">
             <div style="text-align: center; max-width: 600px; margin: auto;">
                 <div class="radio-container">
                     <div class="spectrum-ring" id="ring"></div>
-                    <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=500" class="radio-logo-main">
+                    <img src="logo1.jpg" class="radio-logo-main">
                 </div>
                 <h2 style="font-family:'Orbitron'; color:var(--primary); font-size: 2.2rem;">NALDOA PLAY</h2>
                 <p id="status-radio" style="font-family:'Orbitron'; font-size:0.7rem; letter-spacing:8px; margin-bottom:30px; opacity:0.6;">SINTONIZADO AO VIVO</p>
                 <button onclick="toggleAudio()" class="play-btn-vivo tv-focusable" id="radio-main-btn">
-                    <i data-lucide="play" id="p-icon"></i>
+                    <i data-lucide="play" id="p-icon" style="width:45px; height:45px; fill:#000; color:#000;"></i>
                 </button>
-                <div style="margin-top: 30px;">
-                    <p style="font-family:'Orbitron'; font-size:0.5rem; opacity:0.5; margin-bottom: 10px;">VOLUME</p>
-                    <input type="range" class="tv-focusable" oninput="setVol(this.value)" min="0" max="1" step="0.01" value="0.8" style="width:100%; max-width:350px; accent-color:var(--primary);">
-                </div>
+                <input type="range" class="tv-focusable" oninput="setVol(this.value)" min="0" max="1" step="0.01" style="width:100%; max-width:350px; margin-top:40px; accent-color:var(--primary);">
             </div>
-            <div class="footer-nav">NALDOA PLAY</div>
+            <div class="footer-nav">NALDOA PLAY | RÁDIO</div>
         </section>
 
         <section id="tv" class="view">
             <div class="tv-layout">
-                
                 <div class="video-stage-wrapper">
                     <div class="main-video-container tv-focusable" id="videoContainer" tabindex="0" onclick="triggerUiOsd()">
                         <video id="mainPlayer" autoplay crossorigin="anonymous" poster="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800"></video>
@@ -276,7 +302,7 @@
                                 <img src="" id="overlayLogo" class="current-logo" onerror="this.style.display='none'">
                                 <div class="current-text">
                                     <h3 id="overlayTitle">Nenhum canal ativo</h3>
-                                    <p id="overlaySub">[Use Setas Cima/Baixo p/ mudar • Enter/Botão para Tela Cheia]</p>
+                                    <p id="overlaySub">[Setas Cima/Baixo mudam de canal • Enter p/ Tela Cheia]</p>
                                 </div>
                             </div>
                             
@@ -293,7 +319,7 @@
                     </div>
                 </div>
 
-                <div class="sidebar-channels">
+                <div class="sidebar-channels" id="tvChannelSidebar">
                     <h3 style="font-family:'Orbitron'; font-size:1rem; color:var(--primary); letter-spacing:2px;">CANAIS BR</h3>
                     <div class="iptv-scroll-area" id="listaCanaisContainer">
                         <div style="text-align: center; padding: 40px; opacity: 0.5; font-family: 'Orbitron'; font-size: 0.8rem;">
@@ -301,7 +327,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="footer-nav">NALDOA PLAY</div>
         </section>
@@ -311,14 +336,12 @@
             <div class="video-grid">
                 <div class="video-box"><iframe src="https://www.youtube.com/embed/YwQkLOX8m0E" allowfullscreen></iframe></div>
                 <div class="video-box"><iframe src="https://www.youtube.com/embed/sQeY8CwXQ9w" allowfullscreen></iframe></div>
-                <div class="video-box"><iframe src="https://www.youtube.com/embed/3RpVyPolyM0E" allowfullscreen></iframe></div>
+                <div class="video-box"><iframe src="https://www.youtube.com/embed/3RpVyPb96sU" allowfullscreen></iframe></div>
                 <div class="video-box"><iframe src="https://www.youtube.com/embed/zKaXDl5Texk" allowfullscreen></iframe></div>
                 <div class="video-box"><iframe src="https://www.youtube.com/embed/mcx2w71PANE" allowfullscreen></iframe></div>
                 <div class="video-box"><iframe src="https://www.youtube.com/embed/aZHefqVqXpU" allowfullscreen></iframe></div>
-                <div class="video-box"><iframe src="https://www.youtube.com/embed/AnYGQcgD1nY" allowfullscreen></iframe></div>
-                <div class="video-box"><iframe src="https://www.youtube.com/embed/cSvC3vtNCkQ" allowfullscreen></iframe></div>
             </div>
-            <div class="footer-nav">NALDOA PLAY</div>
+            <div class="footer-nav">CONTEÚDO OFICIAL NALDOA</div>
         </section>
 
         <section id="config" class="view">
@@ -348,16 +371,6 @@
                     <div class="theme-opt" onclick="setT('linear-gradient(135deg, #4e54c8, #8f94fb)', 'dark', true)"><div class="box" style="background:linear-gradient(135deg, #4e54c8, #8f94fb)"></div><span>Cyber Wave</span></div>
                     <div class="theme-opt" onclick="setT('linear-gradient(135deg, #11998e, #38ef7d)', 'light', true)"><div class="box" style="background:linear-gradient(135deg, #11998e, #38ef7d)"></div><span>Acid Green</span></div>
                     <div class="theme-opt" onclick="setT('linear-gradient(135deg, #3a7bd5, #3a6073)', 'dark', true)"><div class="box" style="background:linear-gradient(135deg, #3a7bd5, #3a6073)"></div><span>Stellar Blue</span></div>
-                    <div class="theme-opt" onclick="setT('linear-gradient(135deg, #1fa2ff, #12d6df, #a6ffcb)', 'light', true)"><div class="box" style="background:linear-gradient(135deg, #1fa2ff, #a6ffcb)"></div><span>Cool Tech</span></div>
-                    <div class="theme-opt" onclick="setT('linear-gradient(135deg, #ff9966, #ff5e62)', 'dark', true)"><div class="box" style="background:linear-gradient(135deg, #ff9966, #ff5e62)"></div><span>Hot Coral</span></div>
-                    <div class="theme-opt" onclick="setT('linear-gradient(135deg, #b91c1c, #450a0a)', 'dark', true)"><div class="box" style="background:linear-gradient(135deg, #b91c1c, #450a0a)"></div><span>Vampire Dark</span></div>
-                    <div class="theme-opt" onclick="setT('linear-gradient(135deg, #2563eb, #1d4ed8)', 'dark', true)"><div class="box" style="background:linear-gradient(135deg, #2563eb, #1d4ed8)"></div><span>Electric Blue</span></div>
-                    <div class="theme-opt" onclick="setT('linear-gradient(135deg, #10b981, #047857)', 'dark', true)"><div class="box" style="background:linear-gradient(135deg, #10b981, #047857)"></div><span>Emerald Glow</span></div>
-                    <div class="theme-opt" onclick="setT('linear-gradient(135deg, #f59e0b, #b45309)', 'dark', true)"><div class="box" style="background:linear-gradient(135deg, #f59e0b, #b45309)"></div><span>Amber Night</span></div>
-                    <div class="theme-opt" onclick="setT('linear-gradient(135deg, #8b5cf6, #6d28d9)', 'dark', true)"><div class="box" style="background:linear-gradient(135deg, #8b5cf6, #6d28d9)"></div><span>Cosmic Velvet</span></div>
-                    <div class="theme-opt" onclick="setT('linear-gradient(135deg, #ec4899, #be185d)', 'dark', true)"><div class="box" style="background:linear-gradient(135deg, #ec4899, #be185d)"></div><span>Cyber Pink</span></div>
-                    <div class="theme-opt" onclick="setT('linear-gradient(135deg, #1e293b, #0f172a)', 'dark', true)"><div class="box" style="background:linear-gradient(135deg, #1e293b, #0f172a)"></div><span>Midnight Gray</span></div>
-                    <div class="theme-opt" onclick="setT('linear-gradient(135deg, #6b7280, #374151)', 'dark', true)"><div class="box" style="background:linear-gradient(135deg, #6b7280, #374151)"></div><span>Slate Stone</span></div>
                 </div>
 
                 <p style="font-family:'Orbitron'; font-size:0.7rem; opacity:0.5; margin-bottom:15px; margin-top:25px;">COR DE DESTAQUE</p>
@@ -365,14 +378,15 @@
                     <button class="color-dot" style="background:#d4af37" onclick="setC('#d4af37')"></button>
                     <button class="color-dot" style="background:#00f2fe" onclick="setC('#00f2fe')"></button>
                     <button class="color-dot" style="background:#ff0055" onclick="setC('#ff0055')"></button>
-                    <button class="color-dot" style="background:#ad00ff" onclick="setC('#9d00ff')"></button>
+                    <button class="color-dot" style="background:#00ff00" onclick="setC('#00ff00')"></button>
+                    <button class="color-dot" style="background:#ffffff" onclick="setC('#ffffff')"></button>
+                    <button class="color-dot" style="background:#9d00ff" onclick="setC('#9d00ff')"></button>
+                    <button class="color-dot" style="background:#ff6a00" onclick="setC('#ff6a00')"></button>
+                    <button class="color-dot" style="background:#000000" onclick="setC('#000000')"></button>
                 </div>
             </div>
-            <div class="footer-nav">NALDOA PLAY</div>
         </section>
     </main>
-
-    <audio id="core" src="https://stream.zeno.fm/xx785t45mf9uv/;" preload="none" crossorigin="anonymous"></audio>
 
     <script>
         lucide.createIcons();
@@ -411,7 +425,7 @@
             document.getElementById('scroller').scrollTop = 0;
         }
 
-        /* SISTEMA DE ÁUDIO CORRIGIDO */
+        /* LOGICA AUDIO DA RÁDIO CORRIGIDA */
         function toggleAudio() {
             if (audio.paused || audio.src === "" || audio.src !== streamUrl) {
                 statusRadio.innerText = "SINTONIZANDO...";
@@ -421,9 +435,8 @@
                     ring.style.animationPlayState = 'running';
                     statusRadio.innerText = "SINTONIZADO AO VIVO";
                     lucide.createIcons();
-                }).catch((e) => { 
-                    console.error("Erro áudio:", e);
-                    statusRadio.innerText = "ERRO - TOQUE NOVAMENTE"; 
+                }).catch(() => {
+                    statusRadio.innerText = "ERRO - TOQUE NOVAMENTE";
                 });
             } else {
                 audio.pause(); audio.src = ""; audio.load();
@@ -433,9 +446,10 @@
                 lucide.createIcons();
             }
         }
+
         function setVol(v) { audio.volume = v; }
 
-        /* ENGINE IPTV INTEGRADA */
+        /* ENGINE IPTV */
         async function loadIptvEngine() {
             const container = document.getElementById('listaCanaisContainer');
             try {
@@ -547,25 +561,34 @@
 
         function triggerUiOsd() {
             const container = document.getElementById('videoContainer');
+            const sidebar = document.getElementById('tvChannelSidebar');
             container.classList.add('show-controls');
+            if(document.body.classList.contains('cinema-fullscreen')) {
+                sidebar.classList.add('active-overlay-fs');
+            }
             clearTimeout(controlTimeout);
             controlTimeout = setTimeout(() => {
                 container.classList.remove('show-controls');
+                sidebar.classList.remove('active-overlay-fs');
             }, 4000);
         }
 
-        /* CORREÇÃO DO FULLSCREEN REAL: EXPANDE O CONTAINER PAI MANTENDO A UI VISÍVEL */
+        /* FULLSCREEN REAL CORRIGIDO PARA SUBIR A INTERFACE */
         function toggleFullscreen(event) {
             if(event) event.stopPropagation();
             const container = document.getElementById('videoContainer');
-
-            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            const isFs = document.body.classList.contains('cinema-fullscreen');
+            
+            if(!isFs) {
+                document.body.classList.add('cinema-fullscreen');
                 if (container.requestFullscreen) {
                     container.requestFullscreen().catch(() => {});
                 } else if (container.webkitRequestFullscreen) {
                     container.webkitRequestFullscreen();
                 }
             } else {
+                document.body.classList.remove('cinema-fullscreen');
+                document.getElementById('tvChannelSidebar').classList.remove('active-overlay-fs');
                 if (document.exitFullscreen) {
                     document.exitFullscreen().catch(() => {});
                 } else if (document.webkitExitFullscreen) {
@@ -578,6 +601,8 @@
         document.addEventListener('fullscreenchange', () => {
             const icon = document.getElementById('fs-icon');
             if (!document.fullscreenElement) {
+                document.body.classList.remove('cinema-fullscreen');
+                document.getElementById('tvChannelSidebar').classList.remove('active-overlay-fs');
                 icon.setAttribute('data-lucide', 'maximize');
             } else {
                 icon.setAttribute('data-lucide', 'minimize');
@@ -585,7 +610,7 @@
             lucide.createIcons();
         });
 
-        /* MAPEAMENTO DE TECLADO / CONTROLE REMOTO CORRIGIDO */
+        /* MAPEAMENTO DO CONTROLE REMOTO / TECLADO */
         document.addEventListener('keydown', (e) => {
             const activeEl = document.activeElement;
             const container = document.getElementById('videoContainer');
@@ -604,10 +629,11 @@
                         break;
                     case 'Enter':
                     case 'OK':
-                        // Evita disparar se estiver clicando nas estrelas de fav
-                        if (!activeEl.classList.contains('fav-star')) {
-                            toggleFullscreen();
-                            e.preventDefault();
+                        if (activeEl === container || container.contains(activeEl)) {
+                            if (!activeEl.classList.contains('fav-star')) {
+                                toggleFullscreen();
+                                e.preventDefault();
+                            }
                         }
                         break;
                 }
@@ -637,6 +663,11 @@
             audio.volume = 0.8;
             loadIptvEngine(); 
         };
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js');
+        }
     </script>
 </body>
 </html>
