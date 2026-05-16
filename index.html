@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NaldoA Play | Official Hub</title>
-    <link rel="icon" type="image/png" href="images/icon.png">
+    <link class="js-favicon" rel="icon" type="image/png" href="images/icon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@300;400;600;900&display=swap" rel="stylesheet">
@@ -211,7 +211,7 @@
         const playIcon = document.getElementById('p-icon');
         const streamUrl = "https://stream.zeno.fm/xx785t45mf9uv/;";
 
-        // AGORA PRONTO COM SEU ICONE OFICIAL PARA A TELA DE BLOQUEIO
+        // PASSANDO EXCLUSIVAMENTE O ICON.PNG PARA O SISTEMA DE BLOQUEIO
         function updateMediaSession() {
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
@@ -219,9 +219,8 @@
                     artist: 'NaldoA',
                     album: 'Ecossistemas EXNA',
                     artwork: [
-                        { src: 'images/logo.jpg', sizes: '512x512', type: 'image/jpeg' },
-                        { src: 'images/logo1.jpg', sizes: '512x512', type: 'image/jpeg' },
-                        { src: 'images/icon.png', sizes: '192x192', type: 'image/png' } // Injetado icon.png pronto pro bloqueio
+                        { src: 'images/icon.png', sizes: '192x192', type: 'image/png' },
+                        { src: 'images/icon.png', sizes: '512x512', type: 'image/png' }
                     ]
                 });
 
@@ -259,7 +258,7 @@
             ring.style.animationPlayState = 'running';
             statusRadio.innerText = "TRANSMITINDO AO VIVO";
             statusRadio.className = "font-orbitron text-xs md:text-sm tracking-[6px] uppercase !text-emerald-400 font-bold";
-            updateMediaSession(); // Dispara as imagens e metadados direto pro sistema do smartphone
+            updateMediaSession();
         });
 
         audio.addEventListener('waiting', () => {
