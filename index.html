@@ -24,13 +24,12 @@
             --accent-glow: rgba(212, 175, 55, 0.4);
         }
 
-        /* Aplica a cor customizada nas descrições e subtextos, deixando os títulos principais fixos */
         body, span, p:not(.status-fixo), a { 
             color: var(--text-color); 
             transition: color 0.3s ease; 
         }
         
-        body { background-color: #060911; font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #060911; font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; transition: color 0.3s ease; }
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
         .glow-gold { box-shadow: 0 0 40px rgba(234, 179, 8, 0.25); }
         .glass { background: rgba(13, 18, 30, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.04); }
@@ -212,6 +211,7 @@
         const playIcon = document.getElementById('p-icon');
         const streamUrl = "https://stream.zeno.fm/xx785t45mf9uv/;";
 
+        // AGORA PRONTO COM SEU ICONE OFICIAL PARA A TELA DE BLOQUEIO
         function updateMediaSession() {
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
@@ -221,8 +221,14 @@
                     artwork: [
                         { src: 'images/logo.jpg', sizes: '512x512', type: 'image/jpeg' },
                         { src: 'images/logo1.jpg', sizes: '512x512', type: 'image/jpeg' },
-                        { src: 'images/icon.png', sizes: '192x192', type: 'image/png' }
+                        { src: 'images/icon.png', sizes: '192x192', type: 'image/png' } // Injetado icon.png pronto pro bloqueio
                     ]
+                });
+
+                navigator.mediaSession.setActionHandler('play', () => toggleAudio());
+                navigator.mediaSession.setActionHandler('pause', () => toggleAudio());
+                navigator.mediaSession.setActionHandler('stop', () => {
+                    audio.pause(); audio.src = ""; resetPlayerUi();
                 });
             }
         }
@@ -253,7 +259,7 @@
             ring.style.animationPlayState = 'running';
             statusRadio.innerText = "TRANSMITINDO AO VIVO";
             statusRadio.className = "font-orbitron text-xs md:text-sm tracking-[6px] uppercase !text-emerald-400 font-bold";
-            updateMediaSession();
+            updateMediaSession(); // Dispara as imagens e metadados direto pro sistema do smartphone
         });
 
         audio.addEventListener('waiting', () => {
