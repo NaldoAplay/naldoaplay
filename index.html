@@ -17,7 +17,20 @@
     <meta name="apple-mobile-web-app-title" content="NaldoA Play">
 
     <style>
-        body { background-color: #060911; color: #f3f4f6; font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; }
+        :root {
+            --primary: #d4af37;
+            --bg-glass: rgba(13, 18, 30, 0.85);
+            --text-color: #f3f4f6;
+            --accent-glow: rgba(212, 175, 55, 0.4);
+        }
+
+        /* Aplica a cor customizada nas descrições e subtextos, deixando os títulos principais fixos */
+        body, span, p:not(.status-fixo), a { 
+            color: var(--text-color); 
+            transition: color 0.3s ease; 
+        }
+        
+        body { background-color: #060911; font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; }
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
         .glow-gold { box-shadow: 0 0 40px rgba(234, 179, 8, 0.25); }
         .glass { background: rgba(13, 18, 30, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.04); }
@@ -32,7 +45,6 @@
             100% { transform: scale(0.95); opacity: 0.8; }
         }
 
-        /* imagens/logo.jpg configurada fixo como plano de fundo padrão */
         #master-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
             background-size: cover; background-position: center; filter: brightness(0.25);
@@ -52,11 +64,11 @@
     <header class="glass sticky top-0 z-50 px-4 md:px-8 py-4 flex justify-between items-center border-b border-gray-800/60">
         <div class="flex items-center gap-3">
             <img src="images/icon.png" alt="Icon" class="w-8 h-8 md:w-10 md:h-10 object-contain rounded-lg shadow-md">
-            <div class="font-orbitron bg-gradient-to-r from-yellow-500 to-amber-600 text-black font-black px-4 py-1.5 rounded-lg text-base md:text-xl tracking-wider uppercase shadow-md">
+            <div class="font-orbitron bg-gradient-to-r from-yellow-500 to-amber-600 text-black font-black px-4 py-1.5 rounded-lg text-base md:text-xl tracking-wider uppercase shadow-md !text-black">
                 NaldoA Play
             </div>
         </div>
-        <div class="font-orbitron text-xs text-yellow-500 font-bold tracking-widest bg-yellow-500/10 px-3 py-1.5 rounded-md border border-yellow-500/20">
+        <div class="font-orbitron text-xs font-bold tracking-widest bg-yellow-500/10 px-3 py-1.5 rounded-md border border-yellow-500/20 !text-yellow-500">
             OFFICIAL HUB
         </div>
     </header>
@@ -69,18 +81,18 @@
                 <img src="images/logo1.jpg" onerror="this.src='images/logo.jpg'; this.onerror=function(){this.src='images/icon.png';}" alt="NaldoA Play" class="w-44 h-44 md:w-52 md:h-52 rounded-full object-cover border-4 border-white shadow-2xl z-10 relative">
             </div>
 
-            <h1 class="font-orbitron text-3xl md:text-4xl font-black text-white tracking-wider">RÁDIO NALDOA PLAY</h1>
-            <p id="main-status" class="font-orbitron text-xs md:text-sm tracking-[6px] uppercase text-gray-400 mt-2 transition-all">PRONTA PARA TOCAR</p>
+            <h1 class="font-orbitron text-3xl md:text-4xl font-black tracking-wider !text-white">RÁDIO NALDOA PLAY</h1>
+            <p id="main-status" class="status-fixo font-orbitron text-xs md:text-sm tracking-[6px] uppercase mt-2 transition-all !text-gray-400 opacity-80">PRONTA PARA TOCAR</p>
 
             <div class="mt-8 flex flex-col items-center gap-4 w-full">
                 <button onclick="toggleAudio()" class="w-20 h-20 md:w-24 md:h-24 bg-yellow-500 hover:bg-yellow-400 text-black text-2xl md:text-3xl rounded-full flex items-center justify-center transition transform active:scale-95 hover:scale-105 shadow-[0_0_40px_rgba(234,179,8,0.3)] shrink-0">
-                    <i id="p-icon" class="fas fa-play ml-1"></i>
+                    <i id="p-icon" class="fas fa-play ml-1 !text-black"></i>
                 </button>
                 
                 <div class="flex items-center gap-3 w-full max-w-xs mt-2">
-                    <i class="fas fa-volume-down text-gray-500 text-xs"></i>
+                    <i class="fas fa-volume-down text-xs !text-gray-500"></i>
                     <input type="range" oninput="setVol(this.value)" min="0" max="1" step="0.01" value="0.8" class="w-full h-1.5 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-yellow-500">
-                    <i class="fas fa-volume-up text-gray-500 text-xs"></i>
+                    <i class="fas fa-volume-up text-xs !text-gray-500"></i>
                 </div>
             </div>
         </section>
@@ -88,40 +100,40 @@
         <section id="links" class="glass rounded-2xl p-5 md:p-8 border border-gray-800/80 shadow-2xl">
             <div class="flex items-center gap-2 mb-6">
                 <span class="w-1.5 h-6 bg-yellow-500 rounded-full"></span>
-                <h2 class="font-orbitron text-lg md:text-xl font-black text-white tracking-wider uppercase">Plataformas Oficiais</h2>
+                <h2 class="font-orbitron text-lg md:text-xl font-black tracking-wider uppercase">Plataformas Oficiais</h2>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
                 <a href="https://open.spotify.com/artist/05anJA6CE7Afkn0hYyVMRV" target="_blank" class="bg-white/5 border border-transparent hover:border-green-500/30 p-4 rounded-xl flex flex-col items-center text-center gap-2 transition group hover:-translate-y-1">
-                    <div class="w-10 h-10 bg-green-500/10 text-green-500 rounded-lg flex items-center justify-center text-xl"><i class="fab fa-spotify"></i></div>
-                    <span class="font-orbitron text-[11px] font-bold text-gray-300 group-hover:text-green-400 tracking-wide">SPOTIFY</span>
+                    <div class="w-10 h-10 bg-green-500/10 text-green-500 rounded-lg flex items-center justify-center text-xl"><i class="fab fa-spotify !text-green-500"></i></div>
+                    <span class="font-orbitron text-[11px] font-bold tracking-wide">SPOTIFY</span>
                 </a>
                 <a href="https://youtube.com/@djnaldoaoficial" target="_blank" class="bg-white/5 border border-transparent hover:border-red-500/30 p-4 rounded-xl flex flex-col items-center text-center gap-2 transition group hover:-translate-y-1">
-                    <div class="w-10 h-10 bg-red-500/10 text-red-500 rounded-lg flex items-center justify-center text-xl"><i class="fab fa-youtube"></i></div>
-                    <span class="font-orbitron text-[11px] font-bold text-gray-300 group-hover:text-red-400 tracking-wide">YOUTUBE</span>
+                    <div class="w-10 h-10 bg-red-500/10 text-red-500 rounded-lg flex items-center justify-center text-xl"><i class="fab fa-youtube !text-red-500"></i></div>
+                    <span class="font-orbitron text-[11px] font-bold tracking-wide">YOUTUBE</span>
                 </a>
                 <a href="https://music.apple.com/br/artist/naldoa/1782398892" target="_blank" class="bg-white/5 border border-transparent hover:border-pink-500/30 p-4 rounded-xl flex flex-col items-center text-center gap-2 transition group hover:-translate-y-1">
-                    <div class="w-10 h-10 bg-pink-500/10 text-pink-500 rounded-lg flex items-center justify-center text-xl"><i class="fab fa-apple"></i></div>
-                    <span class="font-orbitron text-[11px] font-bold text-gray-300 group-hover:text-pink-400 tracking-wide">APPLE</span>
+                    <div class="w-10 h-10 bg-pink-500/10 text-pink-500 rounded-lg flex items-center justify-center text-xl"><i class="fab fa-apple !text-pink-500"></i></div>
+                    <span class="font-orbitron text-[11px] font-bold tracking-wide">APPLE</span>
                 </a>
                 <a href="https://www.soundon.global/bio/naldoa" target="_blank" class="bg-white/5 border border-transparent hover:border-blue-500/30 p-4 rounded-xl flex flex-col items-center text-center gap-2 transition group hover:-translate-y-1">
-                    <div class="w-10 h-10 bg-blue-500/10 text-blue-500 rounded-lg flex items-center justify-center text-xl"><i class="fas fa-globe"></i></div>
-                    <span class="font-orbitron text-[11px] font-bold text-gray-300 group-hover:text-blue-400 tracking-wide">SOUNDON</span>
+                    <div class="w-10 h-10 bg-blue-500/10 text-blue-500 rounded-lg flex items-center justify-center text-xl"><i class="fas fa-globe !text-blue-500"></i></div>
+                    <span class="font-orbitron text-[11px] font-bold tracking-wide">SOUNDON</span>
                 </a>
                 <a href="https://music.amazon.com.br/artists/B0DP59T244/naldoa" target="_blank" class="bg-white/5 border border-transparent hover:border-cyan-500/30 p-4 rounded-xl flex flex-col items-center text-center gap-2 transition group hover:-translate-y-1">
-                    <div class="w-10 h-10 bg-cyan-500/10 text-cyan-400 rounded-lg flex items-center justify-center text-xl"><i class="fas fa-headphones"></i></div>
-                    <span class="font-orbitron text-[11px] font-bold text-gray-300 group-hover:text-cyan-400 tracking-wide">AMAZON</span>
+                    <div class="w-10 h-10 bg-cyan-500/10 text-cyan-400 rounded-lg flex items-center justify-center text-xl"><i class="fas fa-headphones !text-cyan-400"></i></div>
+                    <span class="font-orbitron text-[11px] font-bold tracking-wide">AMAZON</span>
                 </a>
                 <a href="https://deezer.page.link/x7uW8uBfUuX" target="_blank" class="bg-white/5 border border-transparent hover:border-purple-500/30 p-4 rounded-xl flex flex-col items-center text-center gap-2 transition group hover:-translate-y-1">
-                    <div class="w-10 h-10 bg-purple-500/10 text-purple-400 rounded-lg flex items-center justify-center text-xl"><i class="fas fa-microphone-alt"></i></div>
-                    <span class="font-orbitron text-[11px] font-bold text-gray-300 group-hover:text-purple-400 tracking-wide">DEEZER</span>
+                    <div class="w-10 h-10 bg-purple-500/10 text-purple-400 rounded-lg flex items-center justify-center text-xl"><i class="fas fa-microphone-alt !text-purple-400"></i></div>
+                    <span class="font-orbitron text-[11px] font-bold tracking-wide">DEEZER</span>
                 </a>
                 <a href="https://instagram.com/naldoaoficial" target="_blank" class="bg-white/5 border border-transparent hover:border-orange-500/30 p-4 rounded-xl flex flex-col items-center text-center gap-2 transition group hover:-translate-y-1">
-                    <div class="w-10 h-10 bg-orange-500/10 text-orange-400 rounded-lg flex items-center justify-center text-xl"><i class="fab fa-instagram"></i></div>
-                    <span class="font-orbitron text-[11px] font-bold text-gray-300 group-hover:text-orange-400 tracking-wide">INSTAGRAM</span>
+                    <div class="w-10 h-10 bg-orange-500/10 text-orange-400 rounded-lg flex items-center justify-center text-xl"><i class="fab fa-instagram !text-orange-400"></i></div>
+                    <span class="font-orbitron text-[11px] font-bold tracking-wide">INSTAGRAM</span>
                 </a>
                 <a href="https://github.com/naldoaplay" target="_blank" class="bg-white/5 border border-transparent hover:border-gray-400/30 p-4 rounded-xl flex flex-col items-center text-center gap-2 transition group hover:-translate-y-1">
-                    <div class="w-10 h-10 bg-gray-500/10 text-gray-400 rounded-lg flex items-center justify-center text-xl"><i class="fab fa-github"></i></div>
-                    <span class="font-orbitron text-[11px] font-bold text-gray-300 group-hover:text-gray-300 tracking-wide">GITHUB</span>
+                    <div class="w-10 h-10 bg-gray-500/10 text-gray-400 rounded-lg flex items-center justify-center text-xl"><i class="fab fa-github !text-gray-400"></i></div>
+                    <span class="font-orbitron text-[11px] font-bold tracking-wide">GITHUB</span>
                 </a>
             </div>
         </section>
@@ -129,9 +141,51 @@
         <section class="glass rounded-2xl p-5 md:p-8 border border-gray-800/80 shadow-2xl">
             <div class="flex items-center gap-2 mb-6">
                 <span class="w-1.5 h-6 bg-yellow-500 rounded-full"></span>
-                <h2 class="font-orbitron text-lg md:text-xl font-black text-white tracking-wider uppercase">Super Catálogo de Temas</h2>
+                <h2 class="font-orbitron text-lg md:text-xl font-black tracking-wider uppercase">Cores das Letras</h2>
+            </div>
+            <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                <button onclick="setTextColor('#f3f4f6')" class="w-12 h-12 rounded-full border-2 border-white/20 bg-gray-100 shadow-md transform active:scale-90 transition" title="Branco"></button>
+                <button onclick="setTextColor('#d4af37')" class="w-12 h-12 rounded-full border-2 border-white/20 bg-[#d4af37] shadow-md transform active:scale-90 transition" title="Ouro"></button>
+                <button onclick="setTextColor('#00f2fe')" class="w-12 h-12 rounded-full border-2 border-white/20 bg-[#00f2fe] shadow-md transform active:scale-90 transition" title="Ciano"></button>
+                <button onclick="setTextColor('#38ef7d')" class="w-12 h-12 rounded-full border-2 border-white/20 bg-[#38ef7d] shadow-md transform active:scale-90 transition" title="Verde Neon"></button>
+                <button onclick="setTextColor('#ff007f')" class="w-12 h-12 rounded-full border-2 border-white/20 bg-[#ff007f] shadow-md transform active:scale-90 transition" title="Rosa"></button>
+            </div>
+        </section>
+
+        <section class="glass rounded-2xl p-5 md:p-8 border border-gray-800/80 shadow-2xl">
+            <div class="flex items-center gap-2 mb-6">
+                <span class="w-1.5 h-6 bg-yellow-500 rounded-full"></span>
+                <h2 class="font-orbitron text-lg md:text-xl font-black tracking-wider uppercase">Super Catálogo de Temas</h2>
             </div>
             
+            <p class="font-orbitron text-[10px] text-gray-500 tracking-widest uppercase mb-3">Natureza & Universo</p>
+            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 mb-8">
+                <div class="cursor-pointer group" onclick="setT('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200', 'dark')">
+                    <div class="w-full h-16 rounded-xl bg-cover bg-center border-2 border-transparent group-hover:border-yellow-500 transition" style="background-image:url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=200')"></div>
+                    <span class="text-[9px] block text-center mt-1 font-medium">Floresta</span>
+                </div>
+                <div class="cursor-pointer group" onclick="setT('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200', 'dark')">
+                    <div class="w-full h-16 rounded-xl bg-cover bg-center border-2 border-transparent group-hover:border-yellow-500 transition" style="background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=200')"></div>
+                    <span class="text-[9px] block text-center mt-1 font-medium">Montanhas</span>
+                </div>
+                <div class="cursor-pointer group" onclick="setT('https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?w=1200', 'dark')">
+                    <div class="w-full h-16 rounded-xl bg-cover bg-center border-2 border-transparent group-hover:border-yellow-500 transition" style="background-image:url('https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?w=200')"></div>
+                    <span class="text-[9px] block text-center mt-1 font-medium">Estrelas</span>
+                </div>
+                <div class="cursor-pointer group" onclick="setT('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1200', 'dark')">
+                    <div class="w-full h-16 rounded-xl bg-cover bg-center border-2 border-transparent group-hover:border-yellow-500 transition" style="background-image:url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=200')"></div>
+                    <span class="text-[9px] block text-center mt-1 font-medium">Galáxia</span>
+                </div>
+                <div class="cursor-pointer group" onclick="setT('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200', 'dark')">
+                    <div class="w-full h-16 rounded-xl bg-cover bg-center border-2 border-transparent group-hover:border-yellow-500 transition" style="background-image:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=200')"></div>
+                    <span class="text-[9px] block text-center mt-1 font-medium">Canyon</span>
+                </div>
+                <div class="cursor-pointer group" onclick="setT('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1200', 'dark')">
+                    <div class="w-full h-16 rounded-xl bg-cover bg-center border-2 border-transparent group-hover:border-yellow-500 transition" style="background-image:url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=200')"></div>
+                    <span class="text-[9px] block text-center mt-1 font-medium">Neblina</span>
+                </div>
+            </div>
+
             <p class="font-orbitron text-[10px] text-gray-500 tracking-widest uppercase mb-3">Gradientes Supreme</p>
             <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
                 <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #0f2027, #203a43, #2c5364)', 'dark')"><div class="w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #0f2027, #2c5364)"></div><span class="text-[10px] block font-semibold truncate">Deep Ocean</span></div>
@@ -139,20 +193,14 @@
                 <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #fc00ff, #00dbde)', 'dark')"><div class="w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #fc00ff, #00dbde)"></div><span class="text-[10px] block font-semibold truncate">Neon Fluid</span></div>
                 <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #bf55ec, #7d3c98)', 'dark')"><div class="w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #bf55ec, #7d3c98)"></div><span class="text-[10px] block font-semibold truncate">Trance Purple</span></div>
                 <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #ed213a, #93291e)', 'dark')"><div class="box w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #ed213a, #93291e)"></div><span class="text-[10px] block font-semibold truncate">Inferno Club</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #1f4037, #99f2c8)', 'light')"><div class="box w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #1f4037, #99f2c8)"></div><span class="text-[10px] block font-semibold truncate">Bio Mint</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #ff007f, #ffaa00)', 'dark')"><div class="box w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #ff007f, #ffaa00)"></div><span class="text-[10px] block font-semibold truncate">Miami Sunset</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #000000, #434343)', 'dark')"><div class="box w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #000000, #434343)"></div><span class="text-[10px] block font-semibold truncate">Pure Carbon</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #ff4e50, #f9d423)', 'light')"><div class="box w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #ff4e50, #f9d423)"></div><span class="text-[10px] block font-semibold truncate">Gold Fire</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #4e54c8, #8f94fb)', 'dark')"><div class="box w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #4e54c8, #8f94fb)"></div><span class="text-[10px] block font-semibold truncate">Cyber Wave</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #11998e, #38ef7d)', 'light')"><div class="box w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #11998e, #38ef7d)"></div><span class="text-[10px] block font-semibold truncate">Acid Green</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #3a7bd5, #3a6073)', 'dark')"><div class="box" style="background:linear-gradient(135deg, #3a7bd5, #3a6073)"></div><span class="text-[10px] block font-semibold truncate">Stellar Blue</span></div>
+                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('images/logo.jpg', 'dark')"><div class="w-full h-10 rounded-lg mb-1.5 bg-yellow-600/30 border border-yellow-500/50"></div><span class="text-[10px] block font-bold truncate !text-yellow-500">Reset Padrão</span></div>
             </div>
         </section>
 
     </main>
 
     <footer class="w-full py-6 border-t border-gray-800/40 text-center glass mt-auto">
-        <div class="font-orbitron text-xs font-black tracking-[4px] text-yellow-500">NALDOA PLAY © 2026</div>
+        <div class="font-orbitron text-xs font-black tracking-[4px] !text-yellow-500">NALDOA PLAY © 2026</div>
     </footer>
 
     <audio id="core" src="https://stream.zeno.fm/xx785t45mf9uv/;" preload="none" crossorigin="anonymous"></audio>
@@ -164,37 +212,53 @@
         const playIcon = document.getElementById('p-icon');
         const streamUrl = "https://stream.zeno.fm/xx785t45mf9uv/;";
 
+        function updateMediaSession() {
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: 'Rádio NaldoA Play',
+                    artist: 'NaldoA',
+                    album: 'Ecossistemas EXNA',
+                    artwork: [
+                        { src: 'images/logo.jpg', sizes: '512x512', type: 'image/jpeg' },
+                        { src: 'images/logo1.jpg', sizes: '512x512', type: 'image/jpeg' },
+                        { src: 'images/icon.png', sizes: '192x192', type: 'image/png' }
+                    ]
+                });
+            }
+        }
+
         function toggleAudio() {
             if (audio.paused || audio.src === "" || !audio.src.includes("xx785t45mf9uv")) {
-                // Estado: Carregando/Conectando
                 statusRadio.innerText = "CONECTANDO...";
-                statusRadio.className = "font-orbitron text-xs md:text-sm tracking-[6px] uppercase text-yellow-500 animate-pulse";
-                playIcon.className = "fas fa-spinner animate-spin"; // Ícone de carregamento giratório
+                statusRadio.className = "font-orbitron text-xs md:text-sm tracking-[6px] uppercase !text-yellow-500 animate-pulse";
+                playIcon.className = "fas fa-spinner animate-spin !text-black";
                 
                 audio.src = streamUrl;
                 audio.play();
             } else {
-                // Estado: Pausado
                 audio.pause(); audio.src = ""; audio.load();
-                playIcon.className = "fas fa-play ml-1";
-                ring.style.animationPlayState = 'paused';
-                statusRadio.innerText = "PAUSADO";
-                statusRadio.className = "font-orbitron text-xs md:text-sm tracking-[6px] uppercase text-gray-400";
+                resetPlayerUi();
             }
         }
 
-        // Evento disparado nativamente pelo navegador assim que o áudio começa a tocar de verdade
+        function resetPlayerUi() {
+            playIcon.className = "fas fa-play ml-0.5 !text-black";
+            ring.style.animationPlayState = 'paused';
+            statusRadio.innerText = "PAUSADO";
+            statusRadio.className = "font-orbitron text-xs md:text-sm tracking-[6px] uppercase !text-gray-400";
+        }
+
         audio.addEventListener('playing', () => {
-            playIcon.className = "fas fa-pause";
+            playIcon.className = "fas fa-pause !text-black";
             ring.style.animationPlayState = 'running';
             statusRadio.innerText = "TRANSMITINDO AO VIVO";
-            statusRadio.className = "font-orbitron text-xs md:text-sm tracking-[6px] uppercase text-emerald-400 font-bold";
+            statusRadio.className = "font-orbitron text-xs md:text-sm tracking-[6px] uppercase !text-emerald-400 font-bold";
+            updateMediaSession();
         });
 
-        // Evento disparado caso o fluxo de áudio sofra alguma interrupção por falta de rede
         audio.addEventListener('waiting', () => {
             statusRadio.innerText = "CARREGANDO BUFFER...";
-            playIcon.className = "fas fa-spinner animate-spin";
+            playIcon.className = "fas fa-spinner animate-spin !text-black";
         });
 
         function setVol(v) { audio.volume = v; }
@@ -206,16 +270,14 @@
             } else {
                 bg.style.backgroundImage = `url('${src}')`;
             }
-            document.documentElement.style.setProperty('--text-color', mode === 'light' ? '#000' : '#fff');
-            document.documentElement.style.setProperty('--bg-glass', mode === 'light' ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.85)');
+            document.documentElement.style.setProperty('--bg-glass', mode === 'light' ? 'rgba(255,255,255,0.85)' : 'rgba(13, 18, 30, 0.85)');
+        }
+
+        function setTextColor(color) {
+            document.documentElement.style.setProperty('--text-color', color);
         }
 
         window.onload = () => { audio.volume = 0.8; };
-    </script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js');
-        }
     </script>
 </body>
 </html>
