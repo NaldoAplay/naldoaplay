@@ -1,16 +1,15 @@
 {
-  "name": "NaldoA Play",
-  "short_name": "NaldoA",
-  "start_url": "./index.html",
+  "name": "NaldoA Play Premium",
+  "short_name": "NaldoA Play",
+  "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#030313",
-
+  "background_color": "#070709",
+  "theme-color": "#FFD700",
   "icons": [
     {
-      "src": "./images/icon.png",
+      "src": "https://i.ytimg.com/vi/p7WvqTRQHc8/maxresdefault_live.jpg",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/jpg"
     }
   ]
 }
