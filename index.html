@@ -74,7 +74,6 @@
             gap: 15px;
         }
 
-        /* Imagem da logo no cabeçalho puxando o ícone do app */
         .header-logo {
             width: 45px;
             height: 45px;
@@ -187,7 +186,6 @@
             text-transform: uppercase; 
         }
         
-        /* Box da logo da rádio configurado para imagem real */
         .radio-logo-container {
             width: 100px;
             height: 100px;
@@ -238,7 +236,7 @@
         .about-card p { font-size: 0.9rem; line-height: 1.6; color: rgba(255,255,255,0.85); text-align: justify; }
         
         .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .social-link { background: var(--bg-inputs); border: 1px solid rgba(255,255,255,0.03); color: var(--branco); text-decoration: none; padding: 14px; border-radius: 14px; text-align: center; font-size: 0.85rem; font-weight: 600; transition: all 0.2s ease; }
+        .social-link { background: var(--bg-inputs); border: 1px solid rgba(255, 255, 255, 0.03); color: var(--branco); text-decoration: none; padding: 14px; border-radius: 14px; text-align: center; font-size: 0.85rem; font-weight: 600; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; }
         .social-link:hover { border-color: var(--ouro); color: var(--ouro); background: rgba(255, 215, 0, 0.02); transform: translateY(-2px); }
 
         /* SEÇÃO IPTV */
@@ -340,9 +338,9 @@
             <div class="social-card">
                 <h3>Conecte-se com NaldoA</h3>
                 <div class="social-grid">
-                    <a href="https://youtube.com" target="_blank" class="social-link">YouTube Canal</a>
-                    <a href="http://googleusercontent.com/spotify.com/7" target="_blank" class="social-link">Spotify Artist</a>
-                    <a href="https://github.com" target="_blank" class="social-link">GitHub</a>
+                    <a href="https://youtube.com/@djnaldoaoficial?si=oG2qqcuyx8r52RVi" target="_blank" class="social-link">YouTube Canal</a>
+                    <a href="http://googleusercontent.com/spotify.com/4" target="_blank" class="social-link">Spotify Artist</a>
+                    <a href="https://www.soundon.global/bio/naldoa" target="_blank" class="social-link">SoundOn Bio</a>
                     <a href="https://instagram.com" target="_blank" class="social-link">Instagram</a>
                 </div>
             </div>
@@ -377,7 +375,7 @@
         const volumeSlider = document.getElementById('volume-control');
         let hlsInstance = null;
 
-        // O SEU CARD COMO TOP 1 DA FILA COM AUTO-UPDATE DE MINIATURA DO YOUTUBE
+        // O SEU CANAL COMO TOP 1 DA FILA
         const meuCanalProprio = {
             nome: "TV NALDOA PLAY",
             logo: "https://i.ytimg.com/vi/p7WvqTRQHc8/maxresdefault_live.jpg",
@@ -385,9 +383,31 @@
             url: "https://www.youtube.com/embed/p7WvqTRQHc8?autoplay=1&si=o0C4KoupgI4XhCFd"
         };
 
+        // FUNÇÃO DE PLAY/PAUSE COM ARQUITETURA PARA TELA DE BLOQUEIO (MEDIA SESSION API)
         function toggleAudio() {
             if (audio.paused) {
-                audio.play();
+                audio.play().then(() => {
+                    if ('mediaSession' in navigator) {
+                        navigator.mediaSession.metadata = new MediaMetadata({
+                            title: 'Rádio NaldoA Play',
+                            artist: 'Reggaeton, Trance & Prog House',
+                            album: 'NaldoA Play Network',
+                            artwork: [
+                                { src: 'logo-radio.png', sizes: '512x512', type: 'image/png' }
+                            ]
+                        });
+
+                        navigator.mediaSession.setActionHandler('play', () => { 
+                            audio.play(); 
+                            playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; 
+                        });
+                        navigator.mediaSession.setActionHandler('pause', () => { 
+                            audio.pause(); 
+                            playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>'; 
+                        });
+                    }
+                }).catch(err => console.log("Erro ao iniciar áudio:", err));
+                
                 playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
             } else {
                 audio.pause();
@@ -468,7 +488,7 @@
                     if (linha.startsWith('#EXTINF:')) {
                         const nameMatch = linha.match(/,([^\r\n]+)/);
                         const logoMatch = linha.match(/tvg-logo="([^"]+)"/);
-                        const groupMatch = linha.match(/group-title="([^"]+)"/);
+                        const groupMatch = inline = linha.match(/group-title="([^"]+)"/);
 
                         const nomeCanal = nameMatch ? nameMatch[1].trim() : "Canal IPTV";
                         const iniciais = nomeCanal.substring(0, 2).toUpperCase();
