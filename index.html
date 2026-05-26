@@ -3,286 +3,498 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NaldoA Play</title>
-    <link class="js-favicon" rel="icon" type="image/png" href="images/icon.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@300;400;600;900&display=swap" rel="stylesheet">
-    <link rel="manifest" href="./manifest.json">
-
-    <meta name="theme-color" content="#060911">
-    <link rel="apple-touch-icon" href="images/icon.png">
+    <title>NaldoA Play | Premium Media Station</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FFD700">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="NaldoA Play">
-
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    
     <style>
         :root {
-            --primary: #d4af37;
-            --bg-glass: rgba(13, 18, 30, 0.85);
-            --text-color: #f3f4f6;
-            --accent-glow: rgba(212, 175, 55, 0.4);
+            --bg-principal: #070709;
+            --bg-cards: #111116;
+            --bg-inputs: #0d0d11;
+            --ouro: #FFD700;
+            --ouro-glow: rgba(255, 215, 0, 0.25);
+            --ouro-dark: #ccac00;
+            --branco: #ffffff;
+            --texto-principal: #f3f4f6;
+            --texto-secundario: #9ca3af;
+            --cinza-trilho: #3f3f46;
         }
 
-        body, span, p:not(.status-fixo), a { 
-            color: var(--text-color); 
-            transition: color 0.3s ease; 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-principal);
+            color: var(--texto-principal);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 15px;
+            flex: 1;
+        }
+
+        /* HEADER PREMIUM */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, var(--bg-cards) 0%, #16161f 100%);
+            border: 1px solid rgba(255, 215, 0, 0.18);
+            border-radius: 18px;
+            margin-bottom: 22px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Imagem da logo no cabeçalho puxando o ícone do app */
+        .header-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            border: 1px solid var(--ouro);
+            object-fit: cover;
+        }
+
+        .brand h1 { 
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.6rem; 
+            font-weight: 900; 
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+            color: var(--branco);
+            line-height: 1.2;
+        }
+        .brand h1 span { 
+            color: var(--ouro); 
+            text-shadow: 0 0 15px var(--ouro-glow); 
+        }
+        .brand p { 
+            font-size: 0.7rem; 
+            color: var(--texto-secundario); 
+            text-transform: uppercase; 
+            letter-spacing: 3px; 
+            margin-top: 1px;
+            font-weight: 500;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 215, 0, 0.04);
+            border: 1px solid var(--ouro);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--ouro);
+            text-transform: uppercase;
+            box-shadow: 0 0 12px var(--ouro-glow);
+        }
+
+        /* GRID RESPONSIVO */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 22px;
+            align-items: start;
+            margin-bottom: 25px;
+        }
+
+        .tv-card {
+            background: var(--bg-cards);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            border-radius: 24px;
+            padding: 16px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+        }
+
+        .player-box {
+            width: 100%;
+            max-width: 850px;
+            margin: 0 auto;
+            background: #000;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 215, 0, 0.15);
+        }
+
+        .video-container-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            width: 100%;
+        }
+
+        .video-container-wrapper iframe, .video-container-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            background: #000;
+        }
+
+        .view-info { margin-top: 14px; display: flex; justify-content: space-between; align-items: center; padding: 0 6px; }
+        .view-info h2 { font-size: 1.05rem; font-weight: 700; }
+        .view-info span { font-size: 0.75rem; color: var(--ouro); background: rgba(255,215,0,0.08); padding: 4px 10px; border-radius: 6px; font-weight: 600; border: 1px solid rgba(255,215,0,0.15); }
+
+        /* CARD DA RÁDIO */
+        .playlist-card {
+            background: var(--bg-cards);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+            text-align: center;
+        }
+
+        .playlist-card h2 { 
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.15rem; 
+            font-weight: 900; 
+            margin-bottom: 18px; 
+            color: var(--ouro); 
+            text-transform: uppercase; 
         }
         
-        body { background-color: #060911; font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; transition: color 0.3s ease; }
-        .font-orbitron { font-family: 'Orbitron', sans-serif; }
-        .glow-gold { box-shadow: 0 0 40px rgba(234, 179, 8, 0.25); }
-        .glass { background: rgba(13, 18, 30, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.04); }
+        /* Box da logo da rádio configurado para imagem real */
+        .radio-logo-container {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 14px auto;
+            border-radius: 50%;
+            border: 3px solid var(--ouro);
+            box-shadow: 0 0 25px var(--ouro-glow);
+            overflow: hidden;
+            background: #000;
+        }
+
+        .radio-logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .playlist-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+        .playlist-card p { font-size: 0.85rem; color: var(--texto-secundario); margin-bottom: 18px; }
+
+        .custom-audio-player {
+            width: 100%;
+            background: var(--bg-inputs);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .play-btn {
+            background: var(--ouro); border: none; width: 50px; height: 50px; border-radius: 50%;
+            cursor: pointer; margin: 0 auto; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 15px var(--ouro-glow);
+        }
+        .play-btn svg { width: 22px; height: 22px; fill: var(--bg-principal); }
+
+        .volume-container { display: flex; align-items: center; gap: 12px; justify-content: center; width: 100%; }
+        .volume-container svg { width: 18px; height: 18px; fill: var(--texto-secundario); }
+        .volume-slider { -webkit-appearance: none; appearance: none; width: 65%; height: 6px; background: var(--cinza-trilho) !important; outline: none; border-radius: 10px; }
+        .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; background: var(--ouro); border-radius: 50%; cursor: pointer; }
+
+        /* SEÇÃO SOBRE E REDES */
+        .info-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 25px; }
+        .about-card, .social-card { background: var(--bg-cards); border-radius: 24px; padding: 25px; border: 1px solid rgba(255,255,255,0.01); }
+        .info-layout h3 { font-family: 'Montserrat', sans-serif; font-size: 1.05rem; margin-bottom: 14px; color: var(--ouro); text-transform: uppercase; border-left: 3px solid var(--ouro); padding-left: 12px; }
+        .about-card p { font-size: 0.9rem; line-height: 1.6; color: rgba(255,255,255,0.85); text-align: justify; }
         
-        .spectrum-ring {
-            animation: pulse-ring 2s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955);
-            animation-play-state: paused;
-        }
-        @keyframes pulse-ring {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 0.3; border-width: 6px; }
-            100% { transform: scale(0.95); opacity: 0.8; }
-        }
+        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .social-link { background: var(--bg-inputs); border: 1px solid rgba(255,255,255,0.03); color: var(--branco); text-decoration: none; padding: 14px; border-radius: 14px; text-align: center; font-size: 0.85rem; font-weight: 600; transition: all 0.2s ease; }
+        .social-link:hover { border-color: var(--ouro); color: var(--ouro); background: rgba(255, 215, 0, 0.02); transform: translateY(-2px); }
 
-        #master-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
-            background-size: cover; background-position: center; filter: brightness(0.25);
-            transition: 1s ease; background-image: url('images/logo.jpg');
-        }
+        /* SEÇÃO IPTV */
+        .iptv-section { background: var(--bg-cards); border-radius: 24px; padding: 24px; border: 1px solid rgba(255,255,255,0.01); }
+        .iptv-section h2 { font-family: 'Montserrat', sans-serif; font-size: 1.2rem; margin-bottom: 18px; border-left: 3px solid var(--ouro); padding-left: 12px; text-transform: uppercase; }
+        
+        .channels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 14px; max-height: 420px; overflow-y: auto; padding-right: 6px; }
+        .channels-grid::-webkit-scrollbar { width: 5px; }
+        .channels-grid::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        .channels-grid::-webkit-scrollbar-thumb { background: var(--cinza-trilho); border-radius: 10px; }
+        .channels-grid::-webkit-scrollbar-thumb:hover { background: var(--ouro); }
 
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #060911; }
-        ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #eab308; }
+        .channel-card { background: var(--bg-inputs); border: 1px solid rgba(255, 255, 255, 0.02); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: border-color 0.2s, transform 0.2s; }
+        .channel-card:hover { border-color: var(--ouro); transform: translateY(-3px); }
+
+        .channel-logo-box { width: 100%; height: 60px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; background: #000; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,215,0,0.06); }
+        .channel-logo-box img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+        .logo-fallback { width: 100%; height: 100%; background: linear-gradient(135deg, #1c1c24 0%, #050507 100%); color: var(--ouro); font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,215,0,0.12); }
+        .channel-card h4 { font-size: 0.8rem; font-weight: 700; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--branco); }
+        .channel-card p { font-size: 0.65rem; color: var(--texto-secundario); margin-top: 3px; text-transform: uppercase; font-weight: 600; }
+
+        footer { text-align: center; padding: 25px; color: var(--texto-secundario); font-size: 0.75rem; border-top: 1px solid rgba(255, 255, 255, 0.03); margin-top: 30px; font-weight: 500; }
+
+        @media (max-width: 1024px) { .main-layout, .info-layout { grid-template-columns: 1fr; } }
+        @media (max-width: 640px) {
+            header { flex-direction: column; gap: 12px; text-align: center; padding: 15px; }
+            .brand h1 { font-size: 1.4rem; }
+            .app-container { padding: 8px; }
+            .channels-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
+            .channel-logo-box { height: 50px; }
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between">
+<body>
 
-    <div id="master-bg"></div>
-
-    <header class="glass sticky top-0 z-50 px-4 md:px-8 py-4 flex justify-between items-center border-b border-gray-800/60">
-        <div class="flex items-center gap-3">
-            <img src="images/icon.png" alt="Icon" class="w-8 h-8 md:w-10 md:h-10 object-contain rounded-lg shadow-md">
-            <div class="font-orbitron bg-gradient-to-r from-yellow-500 to-amber-600 text-black font-black px-4 py-1.5 rounded-lg text-base md:text-xl tracking-wider uppercase shadow-md !text-black">
-                NaldoA Play
-            </div>
-        </div>
-        <div class="font-orbitron text-xs font-bold tracking-widest bg-yellow-500/10 px-3 py-1.5 rounded-md border border-yellow-500/20 !text-yellow-500">
-            OFFICIAL HUB
-        </div>
-    </header>
-
-    <main class="flex-grow container mx-auto px-4 py-6 md:py-12 max-w-5xl flex flex-col gap-8 md:gap-12">
-
-        <section class="flex flex-col items-center justify-center text-center">
-            <div class="relative w-56 h-56 md:w-64 md:h-64 mb-6 flex items-center justify-center">
-                <div id="ring" class="spectrum-ring absolute inset-0 border-4 border-yellow-500 rounded-full shadow-[0_0_30px_rgba(234,179,8,0.4)]"></div>
-                <img src="images/logo1.jpg" onerror="this.src='images/logo.jpg'; this.onerror=function(){this.src='images/icon.png';}" alt="NaldoA Play" class="w-44 h-44 md:w-52 md:h-52 rounded-full object-cover border-4 border-white shadow-2xl z-10 relative">
-            </div>
-
-            <h1 class="font-orbitron text-3xl md:text-4xl font-black tracking-wider !text-white">RÁDIO NALDOA PLAY</h1>
-            <p id="main-status" class="status-fixo font-orbitron text-xs md:text-sm tracking-[6px] uppercase mt-2 transition-all !text-gray-400 opacity-80">PRONTA PARA TOCAR</p>
-
-            <div class="mt-8 flex flex-col items-center gap-4 w-full">
-                <button onclick="toggleAudio()" class="w-20 h-20 md:w-24 md:h-24 bg-yellow-500 hover:bg-yellow-400 text-black text-2xl md:text-3xl rounded-full flex items-center justify-center transition transform active:scale-95 hover:scale-105 shadow-[0_0_40px_rgba(234,179,8,0.3)] shrink-0">
-                    <i id="p-icon" class="fas fa-play ml-1 !text-black"></i>
-                </button>
-                
-                <div class="flex items-center gap-3 w-full max-w-xs mt-2">
-                    <i class="fas fa-volume-down text-xs !text-gray-500"></i>
-                    <input type="range" oninput="setVol(this.value)" min="0" max="1" step="0.01" value="0.8" class="w-full h-1.5 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-yellow-500">
-                    <i class="fas fa-volume-up text-xs !text-gray-500"></i>
+    <div class="app-container">
+        
+        <header>
+            <div class="brand-container">
+                <img src="icone-app.png" alt="Logo App" class="header-logo" onerror="this.style.display='none';">
+                <div class="brand">
+                    <h1>NaldoA <span>Play</span></h1>
+                    <p>Música e Conteúdo Autoral</p>
                 </div>
             </div>
-        </section>
+            <div class="status-badge"><span>LIVE ENGINE</span></div>
+        </header>
 
-        <section id="links" class="glass rounded-2xl p-5 md:p-8 border border-gray-800/80 shadow-2xl">
-            <div class="flex items-center gap-2 mb-6">
-                <span class="w-1.5 h-6 bg-yellow-500 rounded-full"></span>
-                <h2 class="font-orbitron text-lg md:text-xl font-black tracking-wider uppercase">Plataformas Oficiais</h2>
-            </div>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
-                <a href="https://open.spotify.com/artist/05anJA6CE7Afkn0hYyVMRV" target="_blank" class="bg-white/5 border border-transparent hover:border-green-500/30 p-4 rounded-xl flex flex-col items-center text-center gap-2 transition group hover:-translate-y-1">
-                    <div class="w-10 h-10 bg-green-500/10 text-green-500 rounded-lg flex items-center justify-center text-xl"><i class="fab fa-spotify !text-green-500"></i></div>
-                    <span class="font-orbitron text-[11px] font-bold tracking-wide">SPOTIFY</span>
-                </a>
-                <a href="https://youtube.com/@djnaldoaoficial" target="_blank" class="bg-white/5 border border-transparent hover:border-red-500/30 p-4 rounded-xl flex flex-col items-center text-center gap-2 transition group hover:-translate-y-1">
-                    <div class="w-10 h-10 bg-red-500/10 text-red-500 rounded-lg flex items-center justify-center text-xl"><i class="fab fa-youtube !text-red-500"></i></div>
-                    <span class="font-orbitron text-[11px] font-bold tracking-wide">YOUTUBE</span>
-                </a>
-                <a href="https://music.apple.com/br/artist/naldoa/1782398892" target="_blank" class="bg-white/5 border border-transparent hover:border-pink-500/30 p-4 rounded-xl flex flex-col items-center text-center gap-2 transition group hover:-translate-y-1">
-                    <div class="w-10 h-10 bg-pink-500/10 text-pink-500 rounded-lg flex items-center justify-center text-xl"><i class="fab fa-apple !text-pink-500"></i></div>
-                    <span class="font-orbitron text-[11px] font-bold tracking-wide">APPLE</span>
-                </a>
-                <a href="https://www.soundon.global/bio/naldoa" target="_blank" class="bg-white/5 border border-transparent hover:border-blue-500/30 p-4 rounded-xl flex flex-col items-center text-center gap-2 transition group hover:-translate-y-1">
-                    <div class="w-10 h-10 bg-blue-500/10 text-blue-500 rounded-lg flex items-center justify-center text-xl"><i class="fas fa-globe !text-blue-500"></i></div>
-                    <span class="font-orbitron text-[11px] font-bold tracking-wide">SOUNDON</span>
-                </a>
-                <a href="https://music.amazon.com.br/artists/B0DP59T244/naldoa" target="_blank" class="bg-white/5 border border-transparent hover:border-cyan-500/30 p-4 rounded-xl flex flex-col items-center text-center gap-2 transition group hover:-translate-y-1">
-                    <div class="w-10 h-10 bg-cyan-500/10 text-cyan-400 rounded-lg flex items-center justify-center text-xl"><i class="fas fa-headphones !text-cyan-400"></i></div>
-                    <span class="font-orbitron text-[11px] font-bold tracking-wide">AMAZON</span>
-                </a>
-                <a href="https://deezer.page.link/x7uW8uBfUuX" target="_blank" class="bg-white/5 border border-transparent hover:border-purple-500/30 p-4 rounded-xl flex flex-col items-center text-center gap-2 transition group hover:-translate-y-1">
-                    <div class="w-10 h-10 bg-purple-500/10 text-purple-400 rounded-lg flex items-center justify-center text-xl"><i class="fas fa-microphone-alt !text-purple-400"></i></div>
-                    <span class="font-orbitron text-[11px] font-bold tracking-wide">DEEZER</span>
-                </a>
-                <a href="https://instagram.com/naldoaoficial" target="_blank" class="bg-white/5 border border-transparent hover:border-orange-500/30 p-4 rounded-xl flex flex-col items-center text-center gap-2 transition group hover:-translate-y-1">
-                    <div class="w-10 h-10 bg-orange-500/10 text-orange-400 rounded-lg flex items-center justify-center text-xl"><i class="fab fa-instagram !text-orange-400"></i></div>
-                    <span class="font-orbitron text-[11px] font-bold tracking-wide">INSTAGRAM</span>
-                </a>
-                <a href="https://github.com/naldoaplay" target="_blank" class="bg-white/5 border border-transparent hover:border-gray-400/30 p-4 rounded-xl flex flex-col items-center text-center gap-2 transition group hover:-translate-y-1">
-                    <div class="w-10 h-10 bg-gray-500/10 text-gray-400 rounded-lg flex items-center justify-center text-xl"><i class="fab fa-github !text-gray-400"></i></div>
-                    <span class="font-orbitron text-[11px] font-bold tracking-wide">GITHUB</span>
-                </a>
-            </div>
-        </section>
-
-        <section class="glass rounded-2xl p-5 md:p-8 border border-gray-800/80 shadow-2xl">
-            <div class="flex items-center gap-2 mb-6">
-                <span class="w-1.5 h-6 bg-yellow-500 rounded-full"></span>
-                <h2 class="font-orbitron text-lg md:text-xl font-black tracking-wider uppercase">Cores das Letras</h2>
-            </div>
-            <div class="flex flex-wrap gap-4 justify-center md:justify-start">
-                <button onclick="setTextColor('#f3f4f6')" class="w-12 h-12 rounded-full border-2 border-white/20 bg-gray-100 shadow-md transform active:scale-90 transition" title="Branco"></button>
-                <button onclick="setTextColor('#d4af37')" class="w-12 h-12 rounded-full border-2 border-white/20 bg-[#d4af37] shadow-md transform active:scale-90 transition" title="Ouro"></button>
-                <button onclick="setTextColor('#00f2fe')" class="w-12 h-12 rounded-full border-2 border-white/20 bg-[#00f2fe] shadow-md transform active:scale-90 transition" title="Ciano"></button>
-                <button onclick="setTextColor('#38ef7d')" class="w-12 h-12 rounded-full border-2 border-white/20 bg-[#38ef7d] shadow-md transform active:scale-90 transition" title="Verde Neon"></button>
-                <button onclick="setTextColor('#ff007f')" class="w-12 h-12 rounded-full border-2 border-white/20 bg-[#ff007f] shadow-md transform active:scale-90 transition" title="Rosa"></button>
-            </div>
-        </section>
-
-        <section class="glass rounded-2xl p-5 md:p-8 border border-gray-800/80 shadow-2xl">
-            <div class="flex items-center gap-2 mb-6">
-                <span class="w-1.5 h-6 bg-yellow-500 rounded-full"></span>
-                <h2 class="font-orbitron text-lg md:text-xl font-black tracking-wider uppercase">Super Catálogo de Temas</h2>
-            </div>
+        <main class="main-layout">
             
-            <p class="font-orbitron text-[10px] text-gray-500 tracking-widest uppercase mb-3">Natureza & Universo</p>
-            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 mb-8">
-                <div class="cursor-pointer group" onclick="setT('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200', 'dark')">
-                    <div class="w-full h-16 rounded-xl bg-cover bg-center border-2 border-transparent group-hover:border-yellow-500 transition" style="background-image:url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=200')"></div>
-                    <span class="text-[9px] block text-center mt-1 font-medium">Floresta</span>
+            <section class="tv-card">
+                <div class="player-box">
+                    <div class="video-container-wrapper" id="player-view-zone">
+                        <iframe 
+                            id="youtube-frame"
+                            src="https://www.youtube.com/embed/p7WvqTRQHc8?autoplay=1&si=o0C4KoupgI4XhCFd" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                        </iframe>
+                        <video id="hls-video-player" controls style="display:none;"></video>
+                    </div>
                 </div>
-                <div class="cursor-pointer group" onclick="setT('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200', 'dark')">
-                    <div class="w-full h-16 rounded-xl bg-cover bg-center border-2 border-transparent group-hover:border-yellow-500 transition" style="background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=200')"></div>
-                    <span class="text-[9px] block text-center mt-1 font-medium">Montanhas</span>
+                <div class="view-info">
+                    <h2 id="current-stream-title">TV NaldoA Play (Clipes Oficiais)</h2>
+                    <span>HD TRANSMISSION</span>
                 </div>
-                <div class="cursor-pointer group" onclick="setT('https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?w=1200', 'dark')">
-                    <div class="w-full h-16 rounded-xl bg-cover bg-center border-2 border-transparent group-hover:border-yellow-500 transition" style="background-image:url('https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?w=200')"></div>
-                    <span class="text-[9px] block text-center mt-1 font-medium">Estrelas</span>
-                </div>
-                <div class="cursor-pointer group" onclick="setT('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1200', 'dark')">
-                    <div class="w-full h-16 rounded-xl bg-cover bg-center border-2 border-transparent group-hover:border-yellow-500 transition" style="background-image:url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=200')"></div>
-                    <span class="text-[9px] block text-center mt-1 font-medium">Galáxia</span>
-                </div>
-                <div class="cursor-pointer group" onclick="setT('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200', 'dark')">
-                    <div class="w-full h-16 rounded-xl bg-cover bg-center border-2 border-transparent group-hover:border-yellow-500 transition" style="background-image:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=200')"></div>
-                    <span class="text-[9px] block text-center mt-1 font-medium">Canyon</span>
-                </div>
-                <div class="cursor-pointer group" onclick="setT('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1200', 'dark')">
-                    <div class="w-full h-16 rounded-xl bg-cover bg-center border-2 border-transparent group-hover:border-yellow-500 transition" style="background-image:url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=200')"></div>
-                    <span class="text-[9px] block text-center mt-1 font-medium">Neblina</span>
-                </div>
-            </div>
+            </section>
 
-            <p class="font-orbitron text-[10px] text-gray-500 tracking-widest uppercase mb-3">Gradientes Supreme</p>
-            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #0f2027, #203a43, #2c5364)', 'dark')"><div class="w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #0f2027, #2c5364)"></div><span class="text-[10px] block font-semibold truncate">Deep Ocean</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #130cb7, #52e5e7)', 'dark')"><div class="w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #130cb7, #52e5e7)"></div><span class="text-[10px] block font-semibold truncate">Aurora Wave</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #fc00ff, #00dbde)', 'dark')"><div class="w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #fc00ff, #00dbde)"></div><span class="text-[10px] block font-semibold truncate">Neon Fluid</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #bf55ec, #7d3c98)', 'dark')"><div class="w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #bf55ec, #7d3c98)"></div><span class="text-[10px] block font-semibold truncate">Trance Purple</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('linear-gradient(135deg, #ed213a, #93291e)', 'dark')"><div class="box w-full h-10 rounded-lg mb-1.5" style="background:linear-gradient(135deg, #ed213a, #93291e)"></div><span class="text-[10px] block font-semibold truncate">Inferno Club</span></div>
-                <div class="cursor-pointer text-center bg-white/5 p-2 rounded-xl border border-transparent hover:border-yellow-500/40 transition" onclick="setT('images/logo.jpg', 'dark')"><div class="w-full h-10 rounded-lg mb-1.5 bg-yellow-600/30 border border-yellow-500/50"></div><span class="text-[10px] block font-bold truncate !text-yellow-500">Reset Padrão</span></div>
+            <section class="playlist-card">
+                <h2>Rádio NaldoA Play</h2>
+                <div class="radio-logo-container">
+                    <img src="logo-radio.png" alt="Logo Rádio" onerror="this.src='https://via.placeholder.com/100/111116/FFD700?text=N|A'">
+                </div>
+                <h3>Estação de Áudio Digital</h3>
+                <p>Reggaeton, Trance & Prog House</p>
+                
+                <div class="custom-audio-player">
+                    <button class="play-btn" onclick="toggleAudio()">
+                        <svg id="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </button>
+                    <div class="volume-container">
+                        <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                        <input type="range" class="volume-slider" id="volume-control" min="0" max="1" step="0.1" value="0.8" oninput="ajustarVolume()">
+                    </div>
+                    <audio id="real-audio-element">
+                        <source src="https://stream.zeno.fm/xx785t45mf9uv" type="audio/mpeg">
+                    </audio>
+                </div>
+            </section>
+
+        </main>
+
+        <section class="info-layout">
+            <div class="about-card">
+                <h3>Sobre a Estação</h3>
+                <p>Bem-vindo ao centro oficial de streaming NaldoA Play. Uma plataforma projetada para unificar transmissões de vídeo e canais de áudio digital focados na cultura eletrônica e ritmos urbanos.</p>
+            </div>
+            <div class="social-card">
+                <h3>Conecte-se com NaldoA</h3>
+                <div class="social-grid">
+                    <a href="https://youtube.com" target="_blank" class="social-link">YouTube Canal</a>
+                    <a href="http://googleusercontent.com/spotify.com/7" target="_blank" class="social-link">Spotify Artist</a>
+                    <a href="https://github.com" target="_blank" class="social-link">GitHub</a>
+                    <a href="https://instagram.com" target="_blank" class="social-link">Instagram</a>
+                </div>
             </div>
         </section>
 
-    </main>
+        <section class="iptv-section">
+            <h2>Canais de TV Aberta Integrados</h2>
+            <div class="channels-grid" id="iptv-channels-container">
+                <p style="color: var(--texto-secundario); padding: 15px;">Varrendo canais de rede...</p>
+            </div>
+        </section>
 
-    <footer class="w-full py-6 border-t border-gray-800/40 text-center glass mt-auto">
-        <div class="font-orbitron text-xs font-black tracking-[4px] !text-yellow-500">NALDOA PLAY © 2026</div>
-    </footer>
+        <footer><p>© 2026 <strong>NaldoA Play</strong> • Todos os direitos reservados.</p></footer>
 
-    <audio id="core" src="https://stream.zeno.fm/xx785t45mf9uv/;" preload="none" crossorigin="anonymous"></audio>
+    </div>
 
     <script>
-        const audio = document.getElementById('core');
-        const ring = document.getElementById('ring');
-        const statusRadio = document.getElementById('main-status');
-        const playIcon = document.getElementById('p-icon');
-        const streamUrl = "https://stream.zeno.fm/xx785t45mf9uv/;";
-
-        // PASSANDO EXCLUSIVAMENTE O ICON.PNG PARA O SISTEMA DE BLOQUEIO
-        function updateMediaSession() {
-            if ('mediaSession' in navigator) {
-                navigator.mediaSession.metadata = new MediaMetadata({
-                    title: 'Rádio NaldoA Play',
-                    artist: 'NaldoA',
-                    album: 'Ecossistemas EXNA',
-                    artwork: [
-                        { src: 'images/icon.png', sizes: '192x192', type: 'image/png' },
-                        { src: 'images/icon.png', sizes: '512x512', type: 'image/png' }
-                    ]
-                });
-
-                navigator.mediaSession.setActionHandler('play', () => toggleAudio());
-                navigator.mediaSession.setActionHandler('pause', () => toggleAudio());
-                navigator.mediaSession.setActionHandler('stop', () => {
-                    audio.pause(); audio.src = ""; resetPlayerUi();
-                });
-            }
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log("PWA Ativo!"))
+            .catch(err => console.log("Erro de PWA:", err));
         }
+
+        const m3uUrl = "https://iptv-org.github.io/iptv/countries/br.m3u";
+        const container = document.getElementById('iptv-channels-container');
+        const ytFrame = document.getElementById('youtube-frame');
+        const hlsPlayer = document.getElementById('hls-video-player');
+        const streamTitle = document.getElementById('current-stream-title');
+        
+        const audio = document.getElementById('real-audio-element');
+        const playIcon = document.getElementById('play-icon');
+        const volumeSlider = document.getElementById('volume-control');
+        let hlsInstance = null;
+
+        // O SEU CARD COMO TOP 1 DA FILA COM AUTO-UPDATE DE MINIATURA DO YOUTUBE
+        const meuCanalProprio = {
+            nome: "TV NALDOA PLAY",
+            logo: "https://i.ytimg.com/vi/p7WvqTRQHc8/maxresdefault_live.jpg",
+            grupo: "AUTORAL",
+            url: "https://www.youtube.com/embed/p7WvqTRQHc8?autoplay=1&si=o0C4KoupgI4XhCFd"
+        };
 
         function toggleAudio() {
-            if (audio.paused || audio.src === "" || !audio.src.includes("xx785t45mf9uv")) {
-                statusRadio.innerText = "CONECTANDO...";
-                statusRadio.className = "font-orbitron text-xs md:text-sm tracking-[6px] uppercase !text-yellow-500 animate-pulse";
-                playIcon.className = "fas fa-spinner animate-spin !text-black";
-                
-                audio.src = streamUrl;
+            if (audio.paused) {
                 audio.play();
+                playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
             } else {
-                audio.pause(); audio.src = ""; audio.load();
-                resetPlayerUi();
+                audio.pause();
+                playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
             }
         }
 
-        function resetPlayerUi() {
-            playIcon.className = "fas fa-play ml-0.5 !text-black";
-            ring.style.animationPlayState = 'paused';
-            statusRadio.innerText = "PAUSADO";
-            statusRadio.className = "font-orbitron text-xs md:text-sm tracking-[6px] uppercase !text-gray-400";
-        }
+        function ajustarVolume() { audio.volume = volumeSlider.value; }
 
-        audio.addEventListener('playing', () => {
-            playIcon.className = "fas fa-pause !text-black";
-            ring.style.animationPlayState = 'running';
-            statusRadio.innerText = "TRANSMITINDO AO VIVO";
-            statusRadio.className = "font-orbitron text-xs md:text-sm tracking-[6px] uppercase !text-emerald-400 font-bold";
-            updateMediaSession();
-        });
-
-        audio.addEventListener('waiting', () => {
-            statusRadio.innerText = "CARREGANDO BUFFER...";
-            playIcon.className = "fas fa-spinner animate-spin !text-black";
-        });
-
-        function setVol(v) { audio.volume = v; }
-
-        function setT(src, mode) {
-            const bg = document.getElementById('master-bg');
-            if (src.includes('gradient')) {
-                bg.style.backgroundImage = src;
+        function mudarCanal(url, nome) {
+            if (url.includes("youtube.com") || url.includes("p7WvqTRQHc8")) {
+                hlsPlayer.pause();
+                hlsPlayer.style.display = "none";
+                ytFrame.style.display = "block";
+                ytFrame.src = "https://www.youtube.com/embed/p7WvqTRQHc8?autoplay=1&si=o0C4KoupgI4XhCFd";
+                streamTitle.innerText = "TV NaldoA Play (Clipes Oficiais)";
             } else {
-                bg.style.backgroundImage = `url('${src}')`;
+                ytFrame.style.display = "none";
+                ytFrame.src = "";
+                hlsPlayer.style.display = "block";
+                streamTitle.innerText = nome + " (Live IPTV)";
+
+                if (Hls.isSupported()) {
+                    if (hlsInstance) { hlsInstance.destroy(); }
+                    hlsInstance = new Hls();
+                    hlsInstance.loadSource(url);
+                    hlsInstance.attachMedia(hlsPlayer);
+                    hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() { 
+                        hlsPlayer.play().catch(() => console.log("Autoplay retido.")); 
+                    });
+                } else if (hlsPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+                    hlsPlayer.src = url;
+                    hlsPlayer.addEventListener('loadedmetadata', function() { 
+                        hlsPlayer.play().catch(() => console.log("Autoplay retido.")); 
+                    });
+                }
             }
-            document.documentElement.style.setProperty('--bg-glass', mode === 'light' ? 'rgba(255,255,255,0.85)' : 'rgba(13, 18, 30, 0.85)');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function setTextColor(color) {
-            document.documentElement.style.setProperty('--text-color', color);
+        function renderizarCardCanal(canal) {
+            const card = document.createElement('div');
+            card.className = 'channel-card';
+            
+            let logoHTML = `<div class="logo-fallback">${canal.iniciais || "TV"}</div>`;
+            if (canal.logo && canal.logo.startsWith('http')) {
+                const estiloBorda = canal.nome === "TV NALDOA PLAY" ? 'style="border: 2px solid var(--ouro); object-fit: cover;"' : '';
+                logoHTML = `<img src="${canal.logo}" alt="${canal.nome}" referrerpolicy="no-referrer" crossorigin="anonymous" ${estiloBorda} onload="this.style.display='block'" onerror="this.remove();">
+                            <div class="logo-fallback">${canal.iniciais || "TV"}</div>`;
+            }
+
+            card.innerHTML = `
+                <div class="channel-logo-box">${logoHTML}</div>
+                <h4 style="${canal.nome === 'TV NALDOA PLAY' ? 'color: var(--ouro); font-weight: 800;' : ''}">${canal.nome}</h4>
+                <p>${canal.grupo}</p>
+            `;
+
+            card.addEventListener('click', () => mudarCanal(canal.url, canal.nome));
+            container.appendChild(card);
         }
 
-        window.onload = () => { audio.volume = 0.8; };
+        async function carregarCanaisIPTV() {
+            try {
+                container.innerHTML = "";
+                
+                meuCanalProprio.iniciais = meuCanalProprio.nome.substring(3, 5);
+                renderizarCardCanal(meuCanalProprio);
+
+                const response = await fetch(m3uUrl);
+                const data = await response.text();
+                
+                const linhas = data.split('\n');
+                let canalAtual = null;
+
+                for (let i = 0; i < linhas.length; i++) {
+                    let linha = linhas[i].trim();
+
+                    if (linha.startsWith('#EXTINF:')) {
+                        const nameMatch = linha.match(/,([^\r\n]+)/);
+                        const logoMatch = linha.match(/tvg-logo="([^"]+)"/);
+                        const groupMatch = linha.match(/group-title="([^"]+)"/);
+
+                        const nomeCanal = nameMatch ? nameMatch[1].trim() : "Canal IPTV";
+                        const iniciais = nomeCanal.substring(0, 2).toUpperCase();
+
+                        canalAtual = {
+                            nome: nomeCanal,
+                            logo: logoMatch ? logoMatch[1] : null,
+                            iniciais: iniciais,
+                            grupo: groupMatch ? groupMatch[1] : "Aberto"
+                        };
+                    } else if (linha.startsWith('http') && canalAtual) {
+                        canalAtual.url = linha;
+                        renderizarCardCanal(canalAtual);
+                        canalAtual = null;
+                    }
+                }
+            } catch (error) {
+                console.log("Erro de rede ao processar feed.");
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarCanaisIPTV();
+            ajustarVolume();
+            ytFrame.src = "https://www.youtube.com/embed/p7WvqTRQHc8?autoplay=1&si=o0C4KoupgI4XhCFd";
+        });
     </script>
 </body>
 </html>
