@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NaldoA Play | Premium Media Station</title>
+    <title>NaldoA Play | A sua rádio web!</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#FFD700">
@@ -280,7 +280,7 @@
                 <img src="icone-app.png" alt="Logo App" class="header-logo" onerror="this.style.display='none';">
                 <div class="brand">
                     <h1>NaldoA <span>Play</span></h1>
-                    <p>Música e Conteúdo Autoral</p>
+                    <p>A sua rádio web!</p>
                 </div>
             </div>
             <div class="status-badge"><span>LIVE ENGINE</span></div>
@@ -301,7 +301,7 @@
                     </div>
                 </div>
                 <div class="view-info">
-                    <h2 id="current-stream-title">TV NaldoA Play (Clipes Oficiais)</h2>
+                    <h2 id="current-stream-title">TV NaldoA Play (Clipes Oficiais e tv aberta)</h2>
                     <span>HD TRANSMISSION</span>
                 </div>
             </section>
@@ -311,8 +311,8 @@
                 <div class="radio-logo-container">
                     <img src="logo-radio.png" alt="Logo Rádio" onerror="this.src='https://via.placeholder.com/100/111116/FFD700?text=N|A'">
                 </div>
-                <h3>Estação de Áudio Digital</h3>
-                <p>Reggaeton, Trance & Prog House</p>
+                <h3>Estação de Rádio com Áudio Digital</h3>
+                <p>Reggaeton, Trance & Prog House,forró e muito mais!</p>
                 
                 <div class="custom-audio-player">
                     <button class="play-btn" onclick="toggleAudio()">
@@ -380,7 +380,7 @@
             nome: "TV NALDOA PLAY",
             logo: "https://i.ytimg.com/vi/p7WvqTRQHc8/maxresdefault_live.jpg",
             grupo: "AUTORAL",
-            url: "https://www.youtube.com/embed/cV7Qy_5T5bc?si=--7QJR2fBlybg2sX"
+            url: "https://www.youtube.com/embed/EKkkHRacnEs?si=McQJeLSu0ovek9I-"
         };
 
         // FUNÇÃO DE PLAY/PAUSE COM ARQUITETURA PARA TELA DE BLOQUEIO (MEDIA SESSION API)
@@ -422,7 +422,7 @@
                 hlsPlayer.pause();
                 hlsPlayer.style.display = "none";
                 ytFrame.style.display = "block";
-                ytFrame.src = "https://www.youtube.com/embed/cV7Qy_5T5bc?si=--7QJR2fBlybg2sX";
+                ytFrame.src = "https://www.youtube.com/embed/EKkkHRacnEs?si=McQJeLSu0ovek9I-";
                 streamTitle.innerText = "TV NaldoA Play (Clipes Oficiais)";
             } else {
                 ytFrame.style.display = "none";
@@ -513,7 +513,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             carregarCanaisIPTV();
             ajustarVolume();
-            ytFrame.src = "https://www.youtube.com/embed/cV7Qy_5T5bc?si=--7QJR2fBlybg2sX";
+            ytFrame.src = "https://www.youtube.com/embed/EKkkHRacnEs?si=McQJeLSu0ovek9I-;
         });
     </script>
 </body>
